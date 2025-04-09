@@ -1,0 +1,54 @@
+.header {
+    background: #274472;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    align-items: center;
+  }
+  
+  .slogan {
+    font-style: italic;
+    font-size: 0.9rem;
+  }
+  
+  .logout {
+    background: #ff6b6b;
+    border: none;
+    padding: 0.5rem 1rem;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .sidebar {
+    background: #4169e1;
+    color: white;
+    width: 200px;
+    height: 100vh;
+    padding: 1rem;
+    position: fixed;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar li {
+    margin: 1rem 0;
+  }
+  
+  .sidebar a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .footer {
+    background: #274472;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    margin-top: auto;
+  }
+  
