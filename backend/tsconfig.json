@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+      "target": "ES2020",                        // Defina o alvo para a versão do ECMAScript
+      "lib": ["dom", "dom.iterable", "esnext"], // Bibliotecas que o projeto vai usar
+      "allowJs": true,                         // Permite importar arquivos JS no projeto
+      "skipLibCheck": true,                    // Ignora verificações de tipos em arquivos de declaração
+      "esModuleInterop": true,                 // Permite importar módulos CommonJS
+      "allowSyntheticDefaultImports": true,    // Permite importação de default sem ser explicitamente declarado
+      "strict": true,                          // Habilita todas as verificações de tipo rigorosas
+      "forceConsistentCasingInFileNames": true, // Garante consistência de maiúsculas/minúsculas no nome de arquivos
+      "module": "commonjs",                         // Configura o módulo para esnext
+      "rootDir": "./src",
+      "outDir": "./dist",                
+      "moduleResolution": "node",              // Como o TypeScript resolve módulos
+      "resolveJsonModule": true,               // Permite importar arquivos JSON
+      "jsx": "react-jsx",                      // Configura o JSX para React 17+
+      "baseUrl": "./src",                      // Configura a base para os imports
+      "paths": {
+        "@components/*": ["src/components/*"],  // Exemplo de alias de importação
+        "@services/*": ["src/services/*"]       // Exemplo de alias de importação
+      }
+    },
+    "include": ["src"],                        // Inclui a pasta src para ser compilada
+    "exclude": ["node_modules", "build"]       // Exclui node_modules e build da compilação
+  }
+  
