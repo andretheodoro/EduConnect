@@ -1,0 +1,48 @@
+.SidebarStudent {
+  background-color: var(--sidebar-bg);
+  color: var(--text-color);
+  width: 220px;
+  height: 100vh;
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  z-index: 999; /* menor que o header */
+  border-top: none; /* só pra garantir */
+}
+  
+  .SidebarStudent.closed {
+    width: 70px;
+  }
+  
+  .hamburger {
+    font-size: 1.5rem;
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    margin-right: 1rem;
+    cursor: pointer;
+    z-index: 1; /* garante que fique clicável */
+  }
+  
+  .menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .menu li {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .menu li:hover {
+    background-color: #2e2e4f;
+  }
+  
+  .menu li svg {
+    margin-right: 10px;
+  }
+  

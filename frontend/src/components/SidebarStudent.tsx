@@ -2,6 +2,7 @@
 import React from 'react';
 import {
   FaHome,
+  FaUser,
   FaBook,
   FaComments,
   FaRobot,
@@ -9,29 +10,29 @@ import {
   FaHeart,
   FaChartBar,
   FaVideo,
-  FaNewspaper,
+  FaNewspaper
 } from 'react-icons/fa';
-import '../styles/sidebar.css';
+import '../styles/sidebarStudent.css';
 import { useNavigate } from 'react-router-dom';
 
-interface SidebarProps {
+interface SidebarStudentProps {
   isOpen: boolean;
-  toggleSidebar: () => void;
+  toggleSidebarStudent: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
+const SidebarStudent: React.FC<SidebarStudentProps> = ({ isOpen }) => {
   const navigate = useNavigate(); 
 
   return (
-    <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
+    <div className={`SidebarStudent ${isOpen ? 'open' : 'closed'}`}>
       <ul className="menu">
-        <li onClick={() => navigate('/')}>
+      <li onClick={() => navigate('/')}>
           <FaHome /> {isOpen && 'Início'}
         </li>
         <li onClick={() => navigate('/feed')}>
           <FaNewspaper /> {isOpen && 'Feed'}
         </li>
-        <li onClick={() => navigate('/upload')}>
+        <li onClick={() => navigate('/biblioteca')}>
           <FaBook /> {isOpen && 'Biblioteca Digital'}
         </li>
         <li onClick={() => navigate('/notas-frequencias')}>
@@ -40,21 +41,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
         <li onClick={() => navigate('/mensagens')}>
           <FaComments /> {isOpen && 'Mensagens'}
         </li>
-        <li onClick={() => navigate('/assistente')}>
-          <FaRobot /> {isOpen && 'Assistente Virtual'}
-        </li>
         <li onClick={() => navigate('/calendario')}>
           <FaCalendarAlt /> {isOpen && 'Calendário Escolar'}
         </li>
-        <li onClick={() => navigate('/saude-bemestar')}>
+        <li onClick={() => navigate('/saude-bemestar-aluno')}>
           <FaHeart /> {isOpen && 'Bem-estar'}
-        </li>
-        <li onClick={() => navigate('/videoconferencia')}>
-          <FaVideo /> {isOpen && 'Videoconferência (ATPC)'}
         </li>
       </ul>
     </div>
   );
 };
 
-export default Sidebar;
+export default SidebarStudent;

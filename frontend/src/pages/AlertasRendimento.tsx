@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "../styles/AlertasRendimento.css"; 
+import Notification from '../components/Notification';
+import { useNotification } from '../hooks/useNotification';
 
 interface AlunoData {
   id: number;
@@ -12,31 +14,37 @@ interface Props {
   alunos: AlunoData[];
 }
 
-
 const AlertasRendimento: React.FC<Props> = ({ alunos }) => {
   const [selecionados, setSelecionados] = useState<number[]>([]);
+  const [paginaAtual, setPaginaAtual] = useState(1);
+  const itensPorPagina = 5;
 
+  const {
+      message,
+      type,
+      visible,
+      showNotification,
+      closeNotification
+      } = useNotification();
+      
   const toggleSelecionado = (id: number) => {
     setSelecionados((prev) =>
       prev.includes(id) ? prev.filter((alunoId) => alunoId !== id) : [...prev, id]
     );
   };
-  
+
   const estaSelecionado = (id: number) => selecionados.includes(id);
 
   const enviarAlertas = () => {
     const alunosSelecionados = alunos.filter((a) => selecionados.includes(a.id));
-    
-    // Simulação de envio (pode trocar por chamada de API depois)
+
     if (alunosSelecionados.length === 0) {
-      alert("Nenhum aluno selecionado.");
+      showNotification('Nenhum aluno selecionado.', 'info');
       return;
     }
-  
+
     const nomes = alunosSelecionados.map((a) => a.nome).join(", ");
-    alert(`Alerta enviado aos responsáveis de: ${nomes}`);
-    
-    // Limpa seleção após envio
+    showNotification(`Alerta enviado aos responsáveis de: ${nomes}`, 'success');
     setSelecionados([]);
   };
 
@@ -53,14 +61,28 @@ const AlertasRendimento: React.FC<Props> = ({ alunos }) => {
     return "alerta-verde";
   };
 
+  // Paginação
+  const totalPaginas = Math.ceil(alunos.length / itensPorPagina);
+  const indiceInicial = (paginaAtual - 1) * itensPorPagina;
+  const alunosPaginados = alunos.slice(indiceInicial, indiceInicial + itensPorPagina);
+
+  const irParaPaginaAnterior = () => {
+    if (paginaAtual > 1) setPaginaAtual(paginaAtual - 1);
+  };
+
+  const irParaProximaPagina = () => {
+    if (paginaAtual < totalPaginas) setPaginaAtual(paginaAtual + 1);
+  };
+
   return (
     <div className="alertas-container">
       <h2>Alertas Acadêmicos</h2>
       <div style={{ marginBottom: '1rem' }}>
-      <button className="enviar-button" onClick={enviarAlertas}>
-        Enviar Alerta aos Responsáveis
-      </button>
+        <button className="enviar-button" onClick={enviarAlertas}>
+          Enviar Alerta aos Responsáveis
+        </button>
       </div>
+
       <table className="tabela-alertas">
         <thead>
           <tr>
@@ -72,12 +94,12 @@ const AlertasRendimento: React.FC<Props> = ({ alunos }) => {
           </tr>
         </thead>
         <tbody>
-          {alunos.map((aluno) => {
+          {alunosPaginados.map((aluno) => {
             const alerta = getAlerta(aluno.nota, aluno.frequencia);
             const cor = getClassName(aluno.nota, aluno.frequencia);
 
             return (
-                <tr key={aluno.id} className={cor}>
+              <tr key={aluno.id} className={cor}>
                 <td>
                   <input
                     type="checkbox"
@@ -94,6 +116,21 @@ const AlertasRendimento: React.FC<Props> = ({ alunos }) => {
           })}
         </tbody>
       </table>
+
+      {/* Controles de paginação */}
+      <div className="paginacao">
+        <button onClick={irParaPaginaAnterior} disabled={paginaAtual === 1}>
+          ⬅️ Anterior
+        </button>
+        <span>Página {paginaAtual} de {totalPaginas}</span>
+        <button onClick={irParaProximaPagina} disabled={paginaAtual === totalPaginas}>
+          Próxima ➡️
+        </button>
+      </div>
+
+      {visible && (
+          <Notification message={message} type={type} onClose={closeNotification} />
+      )}
     </div>
   );
 };

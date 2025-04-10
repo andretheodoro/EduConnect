@@ -37,3 +37,24 @@
     color: #15803d;
   }
   
+  .paginacao {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    gap: 1rem;
+  }
+  
+  .paginacao button {
+    background-color: #007bff;
+    border: none;
+    padding: 6px 12px;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .paginacao button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }

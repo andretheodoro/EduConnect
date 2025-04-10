@@ -1,0 +1,55 @@
+.saude-container {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.05);
+    text-align: center;
+  }
+  
+  .saude-container h2 {
+    margin-bottom: 1rem;
+    color: #007BFF;
+  }
+  
+  .topico {
+    margin: 1.5rem 0;
+  }
+  
+  .emoticons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .emoticon {
+    font-size: 2rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  .emoticon:hover {
+    transform: scale(1.2);
+  }
+  
+  .selecionado {
+    transform: scale(1.4);
+    filter: drop-shadow(0 0 3px #007BFF);
+  }
+  
+  .enviar {
+    margin-top: 2rem;
+    padding: 0.7rem 2rem;
+    font-size: 1rem;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .enviar:hover {
+    background-color: #0056b3;
+  }
+  

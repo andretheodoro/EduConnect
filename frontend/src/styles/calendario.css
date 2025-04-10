@@ -1,0 +1,140 @@
+.calendario-container {
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .calendario-container h2 {
+    margin-bottom: 1rem;
+    font-size: 24px;
+    color: #1e3a8a; /* Azul escuro */
+    text-align: center;
+  }
+  
+  .calendario-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .react-calendar__tile {
+    border-radius: 6px;
+    padding: 0.5rem 0;
+    transition: background 0.3s;
+  }
+  
+  .react-calendar__tile--active {
+    background: #3b82f6 !important;
+    color: white;
+  }
+  
+  .react-calendar__tile:hover {
+    background: #e0f2fe;
+  }
+  
+  .highlight {
+    background-color: #facc15 !important;
+    color: #1f2937;
+    font-weight: bold;
+  }
+  
+  .eventos-dia {
+    flex: 1;
+    min-width: 250px;
+  }
+  
+  .eventos-dia h3 {
+    font-size: 18px;
+    margin-bottom: 1rem;
+    color: #111827;
+  }
+  
+  .evento {
+    background-color: #f3f4f6;
+    padding: 0.8rem;
+    margin-bottom: 0.8rem;
+    border-radius: 6px;
+    border-left: 4px solid #3b82f6;
+  }
+  
+  .evento strong {
+    color: #1e40af;
+  }
+  
+  .today {
+    background-color: #22c55e !important;
+    color: white !important;
+    font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    .calendario-wrapper {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  
+  /* Estilo base do calendário */
+.react-calendar {
+    border: none;
+    background-color: #fff;
+    border-radius: 10px;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Dia de hoje */
+  .today {
+    background-color: #10b981 !important; /* Verde */
+    color: #fff !important;
+    border-radius: 50%;
+    font-weight: bold;
+  }
+  
+  /* Dias com eventos */
+  .highlight {
+    background-color: #3b82f6 !important; /* Azul */
+    color: #fff !important;
+    border-radius: 50%;
+    font-weight: 600;
+  }
+  
+  /* Dia com evento + hoje */
+  .highlight.today {
+    background-color: #10b981 !important;
+    border: 2px solid #2563eb;
+  }
+  
+  /* Hover e selecionado */
+  .react-calendar__tile:enabled:hover,
+  .react-calendar__tile--active {
+    background-color: #2563eb !important;
+    color: #fff !important;
+    border-radius: 50%;
+  }
+  
+  /* Mês/ano no topo */
+  .react-calendar__navigation {
+    background-color: transparent;
+    margin-bottom: 10px;
+  }
+  
+  .react-calendar__navigation button {
+    color: #111827;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  
+  /* Dias da semana */
+  .react-calendar__month-view__weekdays {
+    text-transform: capitalize;
+    color: #6b7280;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  
