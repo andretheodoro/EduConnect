@@ -10,6 +10,7 @@ import SaudeBemEstarAluno from './pages/SaudeBemEstarAluno';
 import SaudeBemEstarProfessor from './pages/SaudeBemEstarProfessor';
 import BibliotecaDigital from './pages/BibliotecaDigital';
 import UploadBiblioteca from './pages/UploadBiblioteca';
+import SalaVideo from './pages/SalaVideo';
 import Feed from './pages/Feed';
 import PrivateRoute from './routes/PrivateRoute';
 import './App.css';
@@ -34,13 +35,56 @@ function App() {
           <Route path="perfil" element={<Perfil />} />
           <Route path="assistente" element={<AssistenteVirtual />} />
           <Route path="/calendario" element={<CalendarioEventos />} />
-          <Route path="/saude-bemestar-aluno" element={<SaudeBemEstarAluno />} />
-          <Route path="/saude-bemestar" element={<SaudeBemEstarProfessor />} />
-          <Route path="/biblioteca" element={<BibliotecaDigital />} />
-          <Route path="/upload" element={<UploadBiblioteca />} />
+          <Route
+            path="/saude-bemestar-aluno"
+            element={
+              <PrivateRoute tipoUsuario="A">
+                <SaudeBemEstarAluno />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/saude-bemestar"
+            element={
+              <PrivateRoute tipoUsuario="P">
+                <SaudeBemEstarProfessor />
+              </PrivateRoute>
+            }
+          />
+           <Route
+            path="/biblioteca"
+            element={
+              <PrivateRoute tipoUsuario="A">
+                <BibliotecaDigital />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/upload"
+            element={
+              <PrivateRoute tipoUsuario="P">
+                <UploadBiblioteca />
+              </PrivateRoute>
+            }
+          />
           <Route path="/feed" element={<Feed />} />
-          <Route path="/notas-frequencias" element={<NotasFrequencias />
-        } />
+          <Route
+            path="/videoconferencia"
+            element={
+              <PrivateRoute tipoUsuario="P">
+                <SalaVideo />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/notas-frequencias"
+            element={
+              <PrivateRoute tipoUsuario="P">
+                <NotasFrequencias />
+              </PrivateRoute>
+            }
+          />
+        <Route path="/notas-frequencias" element={<NotasFrequencias />} />
         </Route>
       </Routes>
     </Router>
