@@ -5,8 +5,13 @@ import bcrypt from 'bcrypt';
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-    const token = await loginUser(email, password);
-    res.status(200).json({ token });
+    const { token, usuario } = await loginUser(email, password);
+    res.status(200).json({ token,
+      usuario: {
+        id: usuario.id,
+        nome: usuario.nome,
+        tipo: usuario.tipo, // 'professor' ou 'aluno'
+      }, });
   } catch (error: any) {
     res.status(400).json({ message: error.message });
   }

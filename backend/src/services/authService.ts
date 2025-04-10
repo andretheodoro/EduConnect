@@ -12,17 +12,27 @@ export const loginUser = async (email: string, password: string) => {
     throw new Error('Usuário não encontrado');
   }
 
-  const validPassword = await bcrypt.compare(password, user.rows[0].senha);
+  const usuario = user.rows[0];
+
+  const validPassword = await bcrypt.compare(password, usuario.senha);
 
   if (!validPassword) {
     throw new Error('Senha incorreta');
   }
-
   const token = jwt.sign(
-    { id: user.rows[0].id, email: user.rows[0].email },
+    { id: usuario.id, email: usuario.email, tipo: usuario.tipo_usuario }, // já envia tipo no payload também
     process.env.JWT_SECRET!,
     { expiresIn: '1h' }
   );
 
-  return token;
+  // Retorna token e dados relevantes do usuário
+  return {
+    token,
+    usuario: {
+      id: usuario.id,
+      nome: usuario.nome,
+      email: usuario.email,
+      tipo: usuario.tipo_usuario,
+    }
+  };
 };
