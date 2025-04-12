@@ -1,8 +1,8 @@
 -- CreateTable
 CREATE TABLE "users" (
-    "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
+    "id" varchar(40) NOT NULL,
+    "name" varchar(150) NOT NULL,
+    "email" varchar(150) NOT NULL,
     "password" TEXT NOT NULL,
     "type" CHAR(1) NOT NULL CHECK ("type" IN ('P', 'A')),
 

@@ -23,6 +23,16 @@ async function main() {
       },
     });
 
+  if (userCount.filter((user) => user.email === "aluno@fiap.com").length === 0)
+    await prisma.users.create({
+      data: {
+        name: "Aluno",
+        email: "aluno@fiap.com",
+        password: passwordDefault,
+        type: "A",
+      },
+    });
+
   if (userCount.filter((user) => user.email === "andre@fiap.com").length === 0)
     await prisma.users.create({
       data: {

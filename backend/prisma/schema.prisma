@@ -27,3 +27,21 @@ model Events {
 
   @@map("events")
 }
+
+model MessageUser {
+  id         String    @id @default(uuid())
+  email      String    @unique
+  sent       Message[] @relation("SentMessages", fields: [id], references: [senderId])
+  received   Message[] @relation("ReceivedMessages", references: [id])
+}
+
+model Message {
+  id          String         @id @default(uuid())
+  title       String         @db.VarChar(150)
+  content     String
+  senderId    String
+  sender      MessageUser    @relation("SentMessages", fields: [senderId], references: [id])
+  recipients  MessageUser[]  @relation("MessageRecipients", references: [id])
+  createdAt   DateTime       @default(now())
+  readBy      String[]       @default([])
+}
