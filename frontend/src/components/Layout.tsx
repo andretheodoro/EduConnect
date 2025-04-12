@@ -20,7 +20,7 @@ const Layout: React.FC = () => {
   return (
     <div className="layout">
       {/* 👉 Aqui passamos a prop corretamente */}
-      <Header toggleSidebar={toggleSidebar} />
+      <Header toggleSidebar={toggleSidebar} isSidebarOpen={sidebarOpen} />
       <div className="main-content">
       {usuario?.tipo === 'P' ? <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} /> : <SidebarStudent isOpen={sidebarOpen} toggleSidebarStudent={toggleSidebar} /> }
       {/* <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} /> */}

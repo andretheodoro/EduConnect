@@ -70,3 +70,22 @@
   cursor: pointer;
   flex-shrink: 0;
 }
+
+/* Tiago - Logo no menu */
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
+}
+
+.logo-img {
+  max-height: 60px;
+  width: 200px;
+  transition: all 0.3s ease;
+}
+
+.logo-mini-img {
+  max-height: 40px;
+  width: 40px;
+  transition: all 0.3s ease;
+}
