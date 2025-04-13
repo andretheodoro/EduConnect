@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  // output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -7,41 +8,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserType {
+  P
+  A
+}
+
 // Modelo de usuário
-model Users {
-  id       String @id @default(uuid())
-  name     String
-  email    String @unique
+model users {
+  id       String   @id @default(uuid()) @db.VarChar(40)
+  name     String   @db.VarChar(150)
+  email    String   @unique @db.VarChar(150)
   password String
-  type     String @db.Char(1)
-
-  @@map("users")
+  type     UserType
 }
 
-model Events {
-  id          String   @id @default(uuid())
-  date        DateTime
-  time        DateTime
-  description String
+model events {
+  id          String   @id @default(uuid()) @db.VarChar(40)
+  date        DateTime @db.Date
+  time        DateTime @db.Time
+  description String   @db.VarChar(200)
   createdAt   DateTime @default(now()) @map("created_at")
-
-  @@map("events")
 }
 
-model MessageUser {
-  id         String    @id @default(uuid())
-  email      String    @unique
-  sent       Message[] @relation("SentMessages", fields: [id], references: [senderId])
-  received   Message[] @relation("ReceivedMessages", references: [id])
+model messagesUser {
+  id       String     @id @default(uuid())
+  email    String     @unique @db.VarChar(150)
+  sent     messages[] @relation("sentMessages")
+  received messages[] @relation("messageRecipients")
 }
 
-model Message {
-  id          String         @id @default(uuid())
-  title       String         @db.VarChar(150)
-  content     String
-  senderId    String
-  sender      MessageUser    @relation("SentMessages", fields: [senderId], references: [id])
-  recipients  MessageUser[]  @relation("MessageRecipients", references: [id])
-  createdAt   DateTime       @default(now())
-  readBy      String[]       @default([])
+model messages {
+  id        String   @id @default(uuid())
+  title     String   @db.VarChar(150)
+  content   String
+  createdAt DateTime @default(now())
+
+  senderId String
+  sender   messagesUser @relation("sentMessages", fields: [senderId], references: [id])
+
+  recipients messagesUser[] @relation("messageRecipients")
+  readBy     String[]       @default([])
 }

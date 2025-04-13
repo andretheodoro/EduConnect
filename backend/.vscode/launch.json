@@ -14,7 +14,8 @@
                 "ts-node/register" // Registra o ts-node para interpretar o TypeScript
             ],
             "env": {
-                "NODE_ENV": "development"
+                "NODE_ENV": "development",
+                "PORT": "3000" // Definindo a porta como 3000
             }
         }
     ]

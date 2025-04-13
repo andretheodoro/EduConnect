@@ -12,6 +12,7 @@ export const login = async (req: Request, res: Response) => {
         id: usuario.id,
         nome: usuario.nome,
         tipo: usuario.tipo, // 'professor' ou 'aluno'
+        email: usuario.email,
       },
     });
   } catch (error: any) {

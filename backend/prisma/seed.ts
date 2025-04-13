@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, UserType } from "@prisma/client";
 import dotenv from "dotenv";
 import bcrypt from "bcryptjs"; // Importa bcryptjs para hash de senhas
 
@@ -13,23 +13,22 @@ async function main() {
     10
   );
 
-  if (userCount.filter((user) => user.email === "admin@fiap.com").length === 0)
-    await prisma.users.create({
-      data: {
-        name: "Admin",
-        email: "admin@fiap.com",
-        password: passwordDefault,
-        type: "A",
-      },
-    });
-
   if (userCount.filter((user) => user.email === "aluno@fiap.com").length === 0)
     await prisma.users.create({
       data: {
         name: "Aluno",
         email: "aluno@fiap.com",
         password: passwordDefault,
-        type: "A",
+        type: UserType.A,
+      },
+    });
+  if (userCount.filter((user) => user.email === "admin@fiap.com").length === 0)
+    await prisma.users.create({
+      data: {
+        name: "Admin",
+        email: "admin@fiap.com",
+        password: passwordDefault,
+        type: UserType.P,
       },
     });
 
@@ -39,7 +38,7 @@ async function main() {
         name: "André",
         email: "andre@fiap.com",
         password: passwordDefault,
-        type: "P",
+        type: UserType.P,
       },
     });
 
@@ -49,7 +48,7 @@ async function main() {
         name: "Tiago",
         email: "tiago@fiap.com",
         password: passwordDefault,
-        type: "P",
+        type: UserType.P,
       },
     });
 
