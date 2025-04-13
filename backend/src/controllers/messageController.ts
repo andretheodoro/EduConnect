@@ -80,10 +80,19 @@ export const listSentMessages: RequestHandler = async (
   res: Response
 ) => {
   const { userId } = req.params;
+  const existing = await prisma.messagesUser.findMany({
+    where: {
+      email: { in: [userId] },
+    },
+  });
+
+  if (existing.length === 0) {
+    res.json([]);
+  }
 
   const messages = await prisma.messages.findMany({
-    where: { senderId: userId },
-    include: { recipients: true },
+    where: { senderId: existing[0].id },
+    include: { sender: true, recipients: true },
     orderBy: { createdAt: "desc" },
   });
 
@@ -100,9 +109,13 @@ export const listReceivedMessages: RequestHandler = async (
       email: { in: [userId] },
     },
   });
+
+  if (existingRecipients.length === 0) {
+    res.json([]);
+  }
   const messages = await prisma.messages.findMany({
     where: { recipients: { some: { id: existingRecipients[0].id } } },
-    include: { sender: true },
+    include: { sender: true, recipients: true },
     orderBy: { createdAt: "desc" },
   });
 
