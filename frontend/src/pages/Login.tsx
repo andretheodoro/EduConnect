@@ -5,6 +5,7 @@ import '../styles/login.css';
 import api from '../services/api';
 import Notification from '../components/Notification';
 import { useNotification } from '../hooks/useNotification';
+import { unlockNotificationSound } from '../components/MessageNotifier';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -25,6 +26,7 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    unlockNotificationSound(); // Liberar o autoplay para as notificações
 
     if (!validateEmail(email)) {
       setEmailError('Por favor, insira um email válido.');

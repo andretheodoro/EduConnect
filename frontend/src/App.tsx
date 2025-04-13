@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
-import Perfil from './pages/Perfil'; 
-import Home from './pages/Home'; 
+import Perfil from './pages/Perfil';
+import Home from './pages/Home';
 import Layout from './components/Layout';
 import AssistenteVirtual from './pages/AssistenteVirtual';
 import NotasFrequencias from './pages/NotasFrequencias';
@@ -14,80 +14,87 @@ import SalaVideo from './pages/SalaVideo';
 import Feed from './pages/Feed';
 import PrivateRoute from './routes/PrivateRoute';
 import './App.css';
+import MessageForm from './pages/Messages';
+import MessageNotifier from './components/MessageNotifier';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        {/* Rota pública */}
-        <Route path="/login" element={<Login />} />
+    <>
+      <MessageNotifier />
+      <Router>
 
-        {/* Rota protegida com Layout (Header + Sidebar + Footer) */}
-        <Route
-          path="/"
-          element={
-            <PrivateRoute>
-              <Layout />
-            </PrivateRoute>
-          }
-        >
-          <Route path="/" element={<Home />} />
-          <Route path="perfil" element={<Perfil />} />
-          <Route path="assistente" element={<AssistenteVirtual />} />
-          <Route path="/calendario" element={<CalendarioEventos />} />
+        <Routes>
+          {/* Rota pública */}
+          <Route path="/login" element={<Login />} />
+
+          {/* Rota protegida com Layout (Header + Sidebar + Footer) */}
           <Route
-            path="/saude-bemestar-aluno"
+            path="/"
             element={
-              <PrivateRoute tipoUsuario="A">
-                <SaudeBemEstarAluno />
+              <PrivateRoute>
+                <Layout />
               </PrivateRoute>
             }
-          />
-          <Route
-            path="/saude-bemestar"
-            element={
-              <PrivateRoute tipoUsuario="P">
-                <SaudeBemEstarProfessor />
-              </PrivateRoute>
-            }
-          />
-           <Route
-            path="/biblioteca"
-            element={
-              <PrivateRoute tipoUsuario="A">
-                <BibliotecaDigital />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/upload"
-            element={
-              <PrivateRoute tipoUsuario="P">
-                <UploadBiblioteca />
-              </PrivateRoute>
-            }
-          />
-          <Route path="/feed" element={<Feed />} />
-          <Route
-            path="/videoconferencia"
-            element={
-              <PrivateRoute tipoUsuario="P">
-                <SalaVideo />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/notas-frequencias"
-            element={
-              <PrivateRoute tipoUsuario="P">
-                <NotasFrequencias />
-              </PrivateRoute>
-            }
-          />
-        <Route path="/notas-frequencias" element={<NotasFrequencias />} />
-        </Route>
-      </Routes>
-    </Router>
+          >
+            <Route path="/" element={<Home />} />
+            <Route path="perfil" element={<Perfil />} />
+            <Route path="assistente" element={<AssistenteVirtual />} />
+            <Route path="/calendario" element={<CalendarioEventos />} />
+            <Route
+              path="/saude-bemestar-aluno"
+              element={
+                <PrivateRoute tipoUsuario="A">
+                  <SaudeBemEstarAluno />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/saude-bemestar"
+              element={
+                <PrivateRoute tipoUsuario="P">
+                  <SaudeBemEstarProfessor />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/biblioteca"
+              element={
+                <PrivateRoute tipoUsuario="A">
+                  <BibliotecaDigital />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/upload"
+              element={
+                <PrivateRoute tipoUsuario="P">
+                  <UploadBiblioteca />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/feed" element={<Feed />} />
+            <Route path="/messages" element={<MessageForm />} />
+            <Route
+              path="/videoconferencia"
+              element={
+                <PrivateRoute tipoUsuario="P">
+                  <SalaVideo />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/notas-frequencias"
+              element={
+                <PrivateRoute tipoUsuario="P">
+                  <NotasFrequencias />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/notas-frequencias" element={<NotasFrequencias />} />
+          </Route>
+        </Routes>
+      </Router>
+    </>
   );
 }
 
