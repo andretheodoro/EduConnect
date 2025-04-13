@@ -44,16 +44,16 @@
 }
 
 /* Se o menu estiver fechado (opcional) */
-.sidebar.closed {
+/* .sidebar.closed {
   width: 60px;
-}
+} */
 
 /* Conteúdo da página */
 .page-content {
   flex: 1;
   padding: 1.5rem;
   padding-top: var(--header-height); 
-  margin-left: 240px;
+  /* margin-left: 200px; */
   transition: margin-left 0.3s ease;
   background-color: var(--background-color);
 }

@@ -1,13 +1,16 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
+import api from "../services/api"; // aqui usamos o api.ts
 import "../styles/Feed.css";
+import { useUsuario } from '../hooks/useUsuario';
 
 interface Postagem {
   id: number;
   autor: string;
   texto: string;
-  imagemUrl: string;
+  imagem_url: string;
   data: string;
   curtido: boolean;
+  liked_by: number[];
 }
 
 const Feed: React.FC = () => {
@@ -15,29 +18,46 @@ const Feed: React.FC = () => {
   const [novaImagem, setNovaImagem] = useState<File | null>(null);
   const [previewImagem, setPreviewImagem] = useState<string | null>(null);
   const [texto, setTexto] = useState("");
+  const usuario = useUsuario();
 
+  const userId = usuario?.id || 0;
+
+  // Carregar os posts ao montar o componente
   useEffect(() => {
-    const dadosFake: Postagem[] = [
-      {
-        id: 1,
-        autor: "Prof. Ana Paula",
-        texto: "Hoje realizamos uma linda atividade de ciências com os alunos do 5º ano 🌱✨",
-        imagemUrl: "http://localhost:3000/uploads/capas/teste-capa.png",
-        data: "2025-04-09T15:45:00Z",
-        curtido: false,
-      },
-      {
-        id: 2,
-        autor: "Prof. Rafael",
-        texto: "Feira cultural foi um sucesso! Parabéns aos alunos 🎉",
-        imagemUrl: "http://localhost:3000/uploads/capas/teste-capa.png",
-        data: "2025-04-08T18:20:00Z",
-        curtido: false,
-      },
-    ];
-    setPosts(dadosFake);
-  }, []);
+    const fetchPosts = async () => {
+      if (!usuario) return; 
 
+      try {
+        // Chamando a API para pegar todos os posts
+        const response = await api.get("/feed");
+
+        const backendBaseUrl = process.env.REACT_APP_BACKEND_URL;
+        
+        console.log(userId);
+        console.log(response.data);
+        // Formatando os posts recebidos da API
+        const postsFormatados = response.data.map((post: any) => ({
+          id: post.id,
+          autor: post.author,
+          texto: post.text,
+          imagem_url: `${backendBaseUrl}${post.image_url}`, // URL dinâmica
+          data: post.created_at,
+          curtido: post.liked_by.includes(userId),
+          liked_by: post.liked_by,
+        }));
+        
+        // Definindo os posts no estado
+        setPosts(postsFormatados);
+      } catch (error) {
+        console.error("Erro ao carregar o feed:", error);
+      }
+    };
+
+    // Chama a função para carregar os posts
+    fetchPosts();
+  }, [usuario]); // A dependência vazia garante que isso seja executado uma vez ao montar o componente
+
+  // Função de upload de imagem
   const handleImagemChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -46,31 +66,65 @@ const Feed: React.FC = () => {
     }
   };
 
-  const handlePostar = () => {
+  // Função de postagem
+  const handlePostar = async () => {
     if (!texto || !novaImagem) {
       alert("Preencha o texto e selecione uma imagem.");
       return;
     }
 
-    const novoPost: Postagem = {
-      id: posts.length + 1,
-      autor: "Você",
-      texto,
-      imagemUrl: previewImagem!,
-      data: new Date().toISOString(),
-      curtido: false,
-    };
+    const formData = new FormData();
+    formData.append("text", texto);
+    formData.append("user_id", String(userId));
+    formData.append("image", novaImagem);
 
-    setPosts([novoPost, ...posts]);
-    setNovaImagem(null);
-    setPreviewImagem(null);
-    setTexto("");
+    try {
+      const response = await api.post("/feed", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      const novoPost = {
+        id: response.data.id,
+        autor: "Você",
+        texto: response.data.text,
+        imagem_url: `${window.location.origin}${response.data.image_url}`, // URL dinâmica
+        data: response.data.created_at,
+        curtido: false,
+        liked_by: [],
+      };
+
+      setPosts([novoPost, ...posts]);
+      setTexto("");
+      setNovaImagem(null);
+      setPreviewImagem(null);
+    } catch (error) {
+      console.error("Erro ao postar:", error);
+    }
   };
 
-  const toggleCurtir = (id: number) => {
-    setPosts((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, curtido: !p.curtido } : p))
-    );
+  // Função de curtir
+  const toggleCurtir = async (id: number) => {
+    try {
+      const response = await api.put(`/feed/${id}/like`, {
+        user_id: userId,
+      });
+
+      const updatedLikes = response.data.liked_by;
+
+      setPosts((prev) =>
+        prev.map((p) =>
+          p.id === id
+            ? {
+                ...p,
+                curtido: updatedLikes.includes(userId),
+                liked_by: updatedLikes,
+              }
+            : p
+        )
+      );
+    } catch (error) {
+      console.error("Erro ao curtir:", error);
+    }
   };
 
   return (
@@ -84,9 +138,7 @@ const Feed: React.FC = () => {
           onChange={(e) => setTexto(e.target.value)}
         />
 
-        {previewImagem && (
-          <img src={previewImagem} alt="Prévia" className="preview-img" />
-        )}
+        {previewImagem && <img src={previewImagem} alt="Prévia" className="preview-img" />}
 
         <div className="botoes-feed">
           <label htmlFor="upload-input" className="upload-btn">📎 Anexar Imagem</label>
@@ -104,21 +156,30 @@ const Feed: React.FC = () => {
         </div>
       </div>
 
-      {posts.map((post) => (
-        <div key={post.id} className="post-card">
-          <div className="post-header">
-            <strong>{post.autor}</strong>
-            <span>{new Date(post.data).toLocaleString()}</span>
+      {posts.length === 0 ? (
+        <p>Não há posts para exibir.</p>
+      ) : (
+        posts.map((post) => (
+          <div key={post.id} className="post-card">
+            <div className="post-header">
+              <strong>{post.autor}</strong>
+              <span>{new Date(post.data).toLocaleString()}</span>
+            </div>
+            <img src={post.imagem_url} alt="Publicação" className="post-image" />
+            <p className="post-texto">{post.texto}</p>
+            <div className="post-acoes">
+              <div className="curtida-container">
+                <button onClick={() => toggleCurtir(post.id)} className="curtir-btn">
+                  {post.curtido ? "❤️ Curtido" : "🤍 Curtir"}
+                </button>
+                <span className="curtidas-badge">
+                  {post.liked_by.length} curtida{post.liked_by.length !== 1 ? "s" : ""}
+                </span>
+              </div>
+            </div>
           </div>
-          <img src={post.imagemUrl} alt="Publicação" className="post-image" />
-          <p className="post-texto">{post.texto}</p>
-          <div className="post-acoes">
-            <button onClick={() => toggleCurtir(post.id)} className="curtir-btn">
-              {post.curtido ? "❤️ Curtido" : "🤍 Curtir"}
-            </button>
-          </div>
-        </div>
-      ))}
+        ))
+      )}
     </div>
   );
 };

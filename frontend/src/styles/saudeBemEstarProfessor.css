@@ -1,8 +1,9 @@
 .saude-professor-container {
   padding: 30px;
-  max-width: 1200px;
+  /* max-width: 1200px; */
   margin: auto;
   font-family: 'Segoe UI', sans-serif;
+  margin-left: 200px
 }
 
 h2 {

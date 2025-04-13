@@ -69,3 +69,11 @@ body {
 .enviar-button:hover {
   background-color: #005f91;
 }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #f3f4f6; /* ou o cinza claro que você quiser */
+  box-sizing: border-box;
+}

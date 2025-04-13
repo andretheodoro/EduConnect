@@ -1,7 +1,12 @@
 .feed-container {
-    max-width: 700px;
+    /* max-width: 700px; */
     margin: 2rem auto;
     padding: 1rem;
+    margin-left: 220px;
+  }
+
+  body.sidebar-closed .upload-container {
+    margin-left: 60px;
   }
   
   .feed-title {
@@ -87,10 +92,11 @@
   }
   
   .post-image {
-    width: 100%;
+    width: 30%;
     border-radius: 10px;
     margin-bottom: 0.5rem;
     object-fit: cover;
+    text-align: center;
   }
   
   .post-texto {
@@ -111,3 +117,37 @@
     transform: scale(1.1);
   }
   
+  .post-acoes {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+  
+  .curtida-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .curtir-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: #e91e63;
+    font-weight: 600;
+    transition: transform 0.1s ease;
+  }
+  
+  .curtir-btn:hover {
+    transform: scale(1.05);
+  }
+  
+  .curtidas-badge {
+    background-color: #f1f1f1;
+    color: #333;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 12px;
+  }

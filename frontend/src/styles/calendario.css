@@ -1,10 +1,11 @@
 .calendario-container {
     padding: 2rem;
-    max-width: 900px;
+    /* max-width: 900px; */
     margin: 0 auto;
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-left: 220px;
   }
   
   .calendario-container h2 {
@@ -98,24 +99,20 @@
   
   /* Dias com eventos */
   .highlight {
-    background-color: #3b82f6 !important; /* Azul */
+    background-color: #f63b3b !important; /* Azul */
     color: #fff !important;
     border-radius: 50%;
     font-weight: 600;
   }
   
-  /* Dia com evento + hoje */
-  .highlight.today {
-    background-color: #10b981 !important;
-    border: 2px solid #2563eb;
-  }
   
   /* Hover e selecionado */
   .react-calendar__tile:enabled:hover,
   .react-calendar__tile--active {
-    background-color: #2563eb !important;
+    background-color: #2563eb;
     color: #fff !important;
     border-radius: 50%;
+    border: 2px solid #2563eb !important;
   }
   
   /* Mês/ano no topo */
@@ -138,3 +135,8 @@
     font-size: 0.9rem;
   }
   
+    /* Dia com evento + hoje */
+    .highlight.today {
+      background-color: #10b981 !important;
+      border: 2px solid #2563eb !important;
+    }

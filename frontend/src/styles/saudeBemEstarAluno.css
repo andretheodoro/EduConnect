@@ -1,11 +1,12 @@
 .saude-container {
-    max-width: 700px;
+    /* max-width: 700px; */
     margin: 2rem auto;
     padding: 2rem;
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 0 12px rgba(0,0,0,0.05);
     text-align: center;
+    margin-left: 200px;
   }
   
   .saude-container h2 {

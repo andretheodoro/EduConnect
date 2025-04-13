@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Line, Bar, Doughnut } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -14,8 +14,8 @@ import {
   ArcElement,
 } from 'chart.js';
 import '../styles/notasFrequencias.css';
-import { mockAlunos } from '../mocks/mockAlunos';
 import AlertasRendimento from './AlertasRendimento';
+import api from '../services/api'; 
 
 ChartJS.register(
   CategoryScale,
@@ -30,30 +30,97 @@ ChartJS.register(
   ArcElement
 );
 
+interface AlunoNota {
+  aluno_id: number;
+  name: string;
+  media_nota: number;
+}
 
-  const NotasFrequencias: React.FC = () => {
-  const dadosNotas = mockAlunos.map((a) => ({ nome: a.nome, nota: a.nota }));
-  const dadosFrequencia = mockAlunos.map((a) => ({ nome: a.nome, frequencia: a.frequencia }));
+interface AlunoFrequencia {
+  aluno_id: number;
+  name: string;
+  media_frequencia: number;
+}
 
-  const mediaTurma =
-    mockAlunos.reduce((acc, curr) => acc + curr.nota, 0) / mockAlunos.length;
+const NotasFrequencias: React.FC = () => {
+  const [dadosNotas, setDadosNotas] = useState<AlunoNota[]>([]);
+  const [dadosFrequencia, setDadosFrequencia] = useState<AlunoFrequencia[]>([]);
+  const [turmas, setTurmas] = useState<any[]>([]);
+  const [disciplinas, setDisciplinas] = useState<string[]>([]);
+  const [filtroTurma, setFiltroTurma] = useState<string>('');
+  const [filtroDisciplina, setFiltroDisciplina] = useState<string>('');
+  
+  const params = {
+    classId: filtroTurma || undefined,
+    subject: filtroDisciplina || undefined
+  };
 
-  const mediaFreqTurma =
-    mockAlunos.reduce((acc, curr) => acc + curr.frequencia, 0) / mockAlunos.length;
+  useEffect(() => {
+    const fetchMedicaNotas = async () => {
+      try {
+        const response = await api.get('/notas/media', { params });
+        setDadosNotas(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar média de notas:', error);
+      }
+    };
 
-  const acimaDaMedia = dadosNotas.filter((a) => a.nota >= mediaTurma).length;
+    const fetchMedicaFreq = async () => {
+      try {
+        const response = await api.get('/frequencias/media', { params });
+        setDadosFrequencia(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar média de frequencias:', error);
+      }
+    };
+
+    const fetchTurmas = async () => {
+      try {
+        const response = await api.get('/alunos/turmas'); 
+        console.log(response)
+        setTurmas(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar turmas:', error);
+      }
+    };
+  
+    const fetchDisciplinas = async () => {
+      try {
+        const response = await api.get('/notas/disciplinas'); 
+        const disciplinasFormatadas = response.data.map((item: any) => item.subject);
+        setDisciplinas(disciplinasFormatadas);
+      } catch (error) {
+        console.error('Erro ao buscar disciplinas:', error);
+      }
+    };
+
+    fetchTurmas();
+    fetchDisciplinas();
+    fetchMedicaNotas();
+    fetchMedicaFreq();
+  }, []);
+
+  const totalAlunos = dadosNotas.length;
+
+  const mediaTurma = dadosNotas.length
+  ? dadosNotas.reduce((acc, curr) => acc + Number(curr.media_nota), 0) / dadosNotas.length
+  : 0;
+
+  const mediaFreqTurma = dadosFrequencia.reduce((acc, curr) => acc + Number(curr.media_frequencia), 0) / (dadosFrequencia.length || 1);
+
+  const acimaDaMedia = dadosNotas.filter((a) => Number(a.media_nota) >= mediaTurma).length;
   const abaixoDaMedia = dadosNotas.length - acimaDaMedia;
 
-  const coresNotas = mockAlunos.map((aluno) =>
-    aluno.nota >= mediaTurma ? 'rgba(16, 185, 129, 0.7)' : 'rgba(239, 68, 68, 0.7)' // verde ou vermelho
+  const coresNotas = dadosNotas.map((aluno) =>
+    aluno.media_nota >= mediaTurma ? 'rgba(16, 185, 129, 0.7)' : 'rgba(239, 68, 68, 0.7)'
   );
 
   const chartNotasData = {
-    labels: dadosNotas.map((a) => a.nome),
+    labels: dadosNotas.map((a) => a.name),
     datasets: [
       {
         label: 'Notas',
-        data: dadosNotas.map((a) => a.nota),
+        data: dadosNotas.map((a) => Number(a.media_nota)),
         backgroundColor: coresNotas,
         borderColor: 'rgba(0, 0, 0, 0.1)',
         borderWidth: 1,
@@ -62,11 +129,11 @@ ChartJS.register(
   };
 
   const chartFrequenciaData = {
-    labels: dadosFrequencia.map((a) => a.nome),
+    labels: dadosFrequencia.map((a) => a.name),
     datasets: [
       {
         label: 'Frequência (%)',
-        data: dadosFrequencia.map((a) => a.frequencia),
+        data: dadosFrequencia.map((a) => a.media_frequencia),
         backgroundColor: 'rgba(75, 192, 192, 0.6)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 1,
@@ -89,27 +156,14 @@ ChartJS.register(
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: {
-        display: false, 
-      },
-      title: {
-        display: true,
-        text: 'Notas',
-      },
+      legend: { display: false },
+      title: { display: true, text: 'Notas' },
     },
     scales: {
       x: {
-        ticks: {
-          font: {
-            size: 10,
-          },
-          maxRotation: 45,
-          minRotation: 30,
-        },
+        ticks: { font: { size: 10 }, maxRotation: 45, minRotation: 30 },
       },
-      y: {
-        beginAtZero: true,
-      },
+      y: { beginAtZero: true },
     },
   };
 
@@ -118,18 +172,29 @@ ChartJS.register(
     maintainAspectRatio: false,
     scales: {
       x: {
-        ticks: {
-          font: {
-            size: 10,
-          },
-          maxRotation: 45,
-          minRotation: 30,
-        },
+        ticks: { font: { size: 10 }, maxRotation: 45, minRotation: 30 },
       },
-      y: {
-        beginAtZero: true,
-      },
+      y: { beginAtZero: true },
     },
+  };
+
+  const handleAplicarFiltros = async () => {
+    try {
+      const params = {
+        classId: filtroTurma || undefined,
+        subject: filtroDisciplina || undefined
+      };
+  
+      const [notasRes, freqRes] = await Promise.all([
+        api.get('/notas/media', { params }),
+        api.get('/frequencias/media', { params }),
+      ]);
+  
+      setDadosNotas(notasRes.data);
+      setDadosFrequencia(freqRes.data);
+    } catch (error) {
+      console.error('Erro ao aplicar filtros:', error);
+    }
   };
 
   return (
@@ -137,14 +202,30 @@ ChartJS.register(
       <div className="notas-frequencias-header">
         <h2>Análise de Notas e Frequências</h2>
         <div className="filtros">
-          <select><option>Turma 1</option></select>
-          <select><option>Matemática</option></select>
-          <button>Aplicar Filtros</button>
+          <select value={filtroTurma} onChange={(e) => setFiltroTurma(e.target.value)}>
+            <option value="">Todas as Turmas</option>
+            {turmas.map((turma) => (
+              <option key={turma.id} value={turma.id}>
+                {turma.name}
+              </option>
+            ))}
+          </select>
+
+          <select value={filtroDisciplina} onChange={(e) => setFiltroDisciplina(e.target.value)}>
+            <option value="">Todas as Disciplinas</option>
+            {disciplinas.map((disciplina, idx) => (
+              <option key={idx} value={disciplina}>
+                {disciplina}
+              </option>
+            ))}
+          </select>
+
+          <button onClick={handleAplicarFiltros}>Aplicar Filtros</button>
         </div>
       </div>
 
       <div className="cards-resumo">
-        <div className="card"><strong>Total de Alunos:</strong> {mockAlunos.length}</div>
+        <div className="card"><strong>Total de Alunos:</strong> {totalAlunos}</div>
         <div className="card"><strong>Nota Média da Turma:</strong> {mediaTurma.toFixed(1)}</div>
         <div className="card"><strong>Frequência Média da Turma (%):</strong> {mediaFreqTurma.toFixed(1)}</div>
       </div>
@@ -177,7 +258,12 @@ ChartJS.register(
           </div>
         </div>
 
-        <AlertasRendimento alunos={mockAlunos} />
+        <AlertasRendimento alunos={dadosNotas.map((aluno) => ({
+          id: aluno.aluno_id,
+          nome: aluno.name,
+          nota: Number(aluno.media_nota),
+          frequencia: dadosFrequencia.find((f) => f.aluno_id === aluno.aluno_id)?.media_frequencia || 0
+        }))} />
       </div>
     </div>
   );

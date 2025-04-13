@@ -4,4 +4,5 @@ dist
 build
 /backend/src/uploads/capas/*
 /backend/src/uploads/materials/*
+/backend/src/uploads/feed/*
 .vscode/settings.json

@@ -46,23 +46,36 @@ export const uploadMaterial = async (req: Request, res: Response): Promise<void>
 export const listarMateriais = async (req: Request, res: Response): Promise<void> => {
   try {
     const materialsDir = path.join(__dirname, '..', 'uploads', 'materials');
+    const capasDir = path.join(__dirname, '..', 'uploads', 'capas');
     const arquivos = fs.readdirSync(materialsDir);
 
     const baseUrl = `${req.protocol}://${req.get('host')}`;
+    console.log("baseUrl",baseUrl);
 
     const materiais = arquivos.map((nomeArquivo) => {
+      console.log("nomeArquivo",nomeArquivo);
       const arquivoPath = path.join(materialsDir, nomeArquivo);
       const stats = fs.statSync(arquivoPath);
       const dataUpload = stats.mtime;
       const nomeSemExtensao = path.parse(nomeArquivo).name;
 
       const baseName = nomeArquivo.split('-arquivo')[0];
-      const capaName = `${baseName}-capa.png`;
+
+      const possiveisExtensoes = ['.png', '.jpg', '.jpeg', '.webp'];
+      let capaFinal: string | null = null;
+
+      for (const ext of possiveisExtensoes) {
+        const tentativa = path.join(capasDir, `${baseName}-capa${ext}`);
+        if (fs.existsSync(tentativa)) {
+          capaFinal = `${baseUrl}/uploads/capas/${baseName}-capa${ext}`;
+          break;
+        }
+      }
 
       return {
         titulo: nomeSemExtensao,
         arquivoPath: `${baseUrl}/uploads/materials/${nomeArquivo}`,
-        capaPath: `${baseUrl}/uploads/capas/${capaName.replace(path.extname(capaName), '.png')}`, // se a capa tiver o mesmo nome
+        capaPath: capaFinal,
         dataUpload: fs.statSync(arquivoPath).mtime
       };
     });

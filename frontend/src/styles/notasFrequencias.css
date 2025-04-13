@@ -1,6 +1,8 @@
 .notas-frequencias-container {
-    width: 100%;
-    overflow-x: hidden; /* evitar scroll geral */
+    width: calc(100% - 240px);
+    margin-left: 240px;
+    overflow-x: hidden;
+    box-sizing: border-box;
   }
   
   .notas-frequencias-header {

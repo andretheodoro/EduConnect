@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import '../styles/saudeBemEstarAluno.css';
 import Notification from '../components/Notification';
 import { useNotification } from '../hooks/useNotification';
+import api from '../services/api'; 
+import { useUsuario } from '../hooks/useUsuario';
 
 interface Resposta {
   [topico: string]: number;
 }
-
 
 const topicos = [
   'Família',
@@ -16,7 +17,6 @@ const topicos = [
   'Sono',
   'Alimentação',
   'Ansiedade',
-//   'Bullying',
   'Autoestima'
 ];
 
@@ -29,24 +29,30 @@ const emoticons = [
 ];
 
 const SaudeBemEstar: React.FC = () => {
-const {
-    message,
-    type,
-    visible,
-    showNotification,
-    closeNotification
-    } = useNotification();
-    
+  const { message, type, visible, showNotification, closeNotification } = useNotification();
   const [respostas, setRespostas] = useState<Resposta>({});
+  const usuario = useUsuario();
 
   const handleResposta = (topico: string, valor: number) => {
     setRespostas(prev => ({ ...prev, [topico]: valor }));
   };
 
-  const handleSubmit = () => {
-    console.log('Respostas enviadas:', respostas);
-    //back-end
-    showNotification('Questionário enviado com sucesso!', 'success');
+  const handleSubmit = async () => {
+    try {
+      
+      const usuarioId = usuario?.id || 0;
+
+      await api.post('/bem-estar/respostas', {
+        usuarioId,
+        respostas
+      });
+
+      showNotification('Questionário enviado com sucesso!', 'success');
+      setRespostas({});
+    } catch (error) {
+      showNotification('Erro ao enviar questionário', 'error');
+      console.error(error);
+    }
   };
 
   return (
@@ -73,9 +79,9 @@ const {
 
       <button className="enviar" onClick={handleSubmit}>Enviar</button>
 
-    {visible && (
+      {visible && (
         <Notification message={message} type={type} onClose={closeNotification} />
-    )}
+      )}
     </div>
   );
 };
