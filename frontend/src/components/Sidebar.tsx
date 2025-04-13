@@ -37,7 +37,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
         <li onClick={() => navigate('/notas-frequencias')}>
           <FaChartBar /> {isOpen && 'Frequências e Notas'}
         </li>
-        <li onClick={() => navigate('/mensagens')}>
+        <li onClick={() => navigate('/messages')}>
           <FaComments /> {isOpen && 'Mensagens'}
         </li>
         <li onClick={() => navigate('/assistente')}>

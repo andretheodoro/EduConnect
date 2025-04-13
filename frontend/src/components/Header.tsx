@@ -3,11 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { FaBars, FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
 import '../styles/header.css';
 
+import logoFull from '../assets/logo-full.png'; // Logo grande
+import logoMini from '../assets/logo-mini.png'; // Logo mini
+
 interface HeaderProps {
+  isSidebarOpen: boolean;
   toggleSidebar: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
+const Header: React.FC<HeaderProps> = ({ isSidebarOpen, toggleSidebar }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -21,6 +25,14 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
 
   return (
     <header className="header">
+      <div className="logo-wrapper">
+        <img
+          src={isSidebarOpen ? logoFull : logoMini}
+          alt="Logo"
+          className={isSidebarOpen ? "logo-img" : "logo-mini-img"}
+        />
+      </div>
+
       <button className="hamburger" onClick={toggleSidebar}>
         <FaBars />
       </button>
