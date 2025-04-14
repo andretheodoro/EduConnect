@@ -1,12 +1,13 @@
 .video-container {
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     align-items: center;
     padding: 2rem;
     font-family: "Segoe UI", sans-serif;
     background-color: #f0f4fa;
     min-height: 100vh;
-    margin-left: 230px;
+    margin-left: 230px; */
+     padding: 1rem;
     }
   
   .formulario {
@@ -16,7 +17,7 @@
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
     text-align: center;
     /* max-width: 400px; */
-    width: 100%;
+    /* width: 100%; */
     transition: all 0.3s ease-in-out;
   }
   

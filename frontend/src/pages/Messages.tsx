@@ -121,9 +121,9 @@ const MessageForm: React.FC = () => {
   };
 
   return (
-    <Box display="flex" height="100%" width="100%">
+    <Box display="flex" p="1rem">
       {/* Menu lateral */}
-      <Paper elevation={2} sx={{ width: 250, height: 608, p: 2 }}>
+      < Paper elevation={2} sx={{ width: 250, height: 608, p: 2 }}>
         <Typography variant="h6" gutterBottom>Mensagens</Typography>
         <List>
           <ListItem disablePadding>
@@ -154,10 +154,10 @@ const MessageForm: React.FC = () => {
           </ListItem>
         </List>
 
-      </Paper>
+      </Paper >
 
       {/* Conteúdo */}
-      <Box flex={1} pl={1}>
+      < Box flex={1} pl={1} >
         {activeTab === 'send' ? (
           <Paper elevation={3} sx={{ p: 3 }}>
             <Typography variant="h5" gutterBottom>Nova Mensagem</Typography>
@@ -187,7 +187,7 @@ const MessageForm: React.FC = () => {
                 getOptionLabel={(option) => option.email}
                 value={recipients}
                 onChange={(_, newValue) => setRecipients(newValue)}
-                sx={{ flex: 1 }} 
+                sx={{ flex: 1 }}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -352,8 +352,8 @@ const MessageForm: React.FC = () => {
           </Paper>
 
         )}
-      </Box>
-    </Box>
+      </Box >
+    </Box >
   );
 };
 
