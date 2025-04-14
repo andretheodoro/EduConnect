@@ -2,8 +2,11 @@ import React, { useState, useEffect, ChangeEvent } from "react";
 import api from "../services/api"; // aqui usamos o api.ts
 import "../styles/Feed.css";
 import { useUsuario } from '../hooks/useUsuario';
+import { Box, Button } from "@mui/material";
+import { FiPaperclip, FiSend } from "react-icons/fi";
 import { useNotification } from '../hooks/useNotification';
 import Notification from '../components/Notification';
+
 
 interface Postagem {
   id: number;
@@ -36,12 +39,16 @@ const Feed: React.FC = () => {
   // Carregar os posts ao montar o componente
   useEffect(() => {
     const fetchPosts = async () => {
-      if (!usuario) return; 
+      if (!usuario) return;
 
       try {
         // Chamando a API para pegar todos os posts
-        const response = await api.get("/feed");        
-  
+        const response = await api.get("/feed");
+
+        const backendBaseUrl = process.env.REACT_APP_BACKEND_URL;
+        
+        console.log(userId);
+        console.log(response.data);
         // Formatando os posts recebidos da API
         const postsFormatados = response.data.map((post: any) => ({
           id: post.id,
@@ -52,7 +59,7 @@ const Feed: React.FC = () => {
           curtido: post.liked_by.includes(userId),
           liked_by: post.liked_by,
         }));
-        
+
         // Definindo os posts no estado
         setPosts(postsFormatados);
       } catch (error) {
@@ -124,10 +131,10 @@ const Feed: React.FC = () => {
         prev.map((p) =>
           p.id === id
             ? {
-                ...p,
-                curtido: updatedLikes.includes(userId),
-                liked_by: updatedLikes,
-              }
+              ...p,
+              curtido: updatedLikes.includes(userId),
+              liked_by: updatedLikes,
+            }
             : p
         )
       );
@@ -149,7 +156,39 @@ const Feed: React.FC = () => {
 
         {previewImagem && <img src={previewImagem} alt="Prévia" className="preview-img" />}
 
-        <div className="botoes-feed">
+        <Box className="botoes-feed">
+          <label htmlFor="upload-input">
+            <input
+              id="upload-input"
+              type="file"
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={handleImagemChange}
+            />
+            <Button
+              variant="contained"
+              color="success"
+              component="span"
+              sx={{ textTransform: 'none' }}
+            >
+              <FiPaperclip style={{ marginRight: 8, marginTop: 2 }} />
+              Anexar imagem
+            </Button>
+          </label>
+
+
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handlePostar}
+            sx={{ textTransform: 'none' }}
+          >
+            <FiSend style={{ marginRight: 8, marginTop: 2 }} />
+            Publicar
+          </Button>
+        </Box>
+
+        {/* <div className="botoes-feed">
           <label htmlFor="upload-input" className="upload-btn">📎 Anexar Imagem</label>
           <input
             id="upload-input"
@@ -162,7 +201,7 @@ const Feed: React.FC = () => {
           <button className="publicar-btn" onClick={handlePostar}>
             📤 Publicar
           </button>
-        </div>
+        </div> */}
       </div>
 
       {posts.length === 0 ? (

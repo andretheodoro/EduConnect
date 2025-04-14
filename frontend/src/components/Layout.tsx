@@ -22,13 +22,18 @@ const Layout: React.FC = () => {
       {/* 👉 Aqui passamos a prop corretamente */}
       <Header toggleSidebar={toggleSidebar} isSidebarOpen={sidebarOpen} />
       <div className="main-content">
-      {usuario?.tipo === 'P' ? <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} /> : <SidebarStudent isOpen={sidebarOpen} toggleSidebarStudent={toggleSidebar} /> }
-      {/* <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} /> */}
-      <div className="page-content">
+        {usuario?.tipo === 'P' ? <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} /> : <SidebarStudent isOpen={sidebarOpen} toggleSidebarStudent={toggleSidebar} />}
+        {/* <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} /> */}
+        <div className="page-content"
+          style={{
+            marginLeft: sidebarOpen ? 240 : 70, // ou o valor da largura da sidebar
+            transition: 'margin-left 0.3s ease',
+            width: `calc(100% - ${sidebarOpen ? 290 : 120}px)`,
+          }}>
           <Outlet />
         </div>
       </div>
-      <Footer /> 
+      <Footer />
     </div>
   );
 };

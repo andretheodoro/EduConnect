@@ -1,46 +1,126 @@
-# Getting Started with Create React App
+# 🎓 EduConnect - Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este é o frontend da plataforma **EduConnect**, uma solução educacional que facilita a comunicação e organização entre alunos e professores. A aplicação é construída com **React**, **TypeScript** e **Material UI**, proporcionando uma interface moderna e responsiva.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Funcionalidades
 
-### `npm start`
+- **Autenticação de Usuários**
+  - Registro e login com validação de credenciais
+  - Armazenamento seguro de tokens JWT
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **Mensagens Internas**
+  - Envio de mensagens para um ou mais usuários
+  - Visualização de mensagens enviadas e recebidas
+  - Indicação de mensagens não lidas
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- **Listagem de Usuários**
+  - Exibição de todos os usuários cadastrados (exceto o usuário logado)
+  - Busca e filtragem de usuários por nome ou email
 
-### `npm test`
+- **Acompanhamento Acadêmico**
+  - Visualização de conteúdos das aulas por disciplina
+  - Acesso às notas de avaliações por disciplina
+  - Consulta de faltas por disciplina
+  - Visualização de horários de aulas
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Financeiro**
+  - Consulta de boletos pagos e em aberto
+  - Visualização de datas de vencimento e valores
+  - Pagamento de mensalidades via cartão de crédito e PIX
 
-### `npm run build`
+- **Notificações e Avisos**
+  - Recebimento de notificações em tempo real
+  - Visualização de avisos de ocorrências e inadimplência
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Materiais e Documentos**
+  - Acesso a materiais disponibilizados pelos professores
+  - Emissão de documentos acadêmicos
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Biblioteca**
+  - Acesso à biblioteca para pesquisas
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Carteirinha Estudantil**
+  - Visualização da carteirinha estudantil digital
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 🛠️ Tecnologias Utilizadas
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- [React](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Material UI](https://mui.com/)
+- [Axios](https://axios-http.com/)
+- [React Router](https://reactrouter.com/)
+- [Vite](https://vitejs.dev/)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+---
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## 📁 Estrutura de Pastas
 
-## Learn More
+```
+/frontend
+├── public/
+├── src/
+│   ├── components/       # Componentes reutilizáveis
+│   ├── pages/            # Páginas da aplicação
+│   ├── services/         # Serviços de API
+│   ├── contexts/         # Contextos de autenticação e temas
+│   ├── hooks/            # Hooks personalizados
+│   └── App.tsx           # Componente principal
+├── package.json
+├── tsconfig.json
+└── vite.config.ts
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## ⚙️ Como Rodar Localmente
+
+1. **Clone o repositório**
+
+```bash
+git clone https://github.com/andretheodoro/EduConnect.git
+cd EduConnect/frontend
+```
+
+2. **Instale as dependências**
+
+```bash
+npm install
+```
+
+3. **Configure as variáveis de ambiente**
+
+Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
+
+```env
+VITE_API_URL=http://localhost:3000
+```
+
+4. **Inicie o servidor de desenvolvimento**
+
+```bash
+npm run dev
+```
+
+A aplicação estará disponível em `http://localhost:5173`.
+
+---
+
+## 🔗 Integração com o Backend
+
+Certifique-se de que o backend da aplicação esteja rodando corretamente. O frontend se comunica com a API para realizar operações de autenticação, envio e recebimento de mensagens, e listagem de usuários.
+
+---
+
+## 📄 Licença
+
+Este projeto está sob a licença **MIT**. Veja o arquivo `LICENSE` para mais detalhes.
+
+---
+
+## 🤝 Contribuições
+
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests com melhorias, sugestões ou correções.

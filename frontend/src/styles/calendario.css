@@ -1,11 +1,12 @@
 .calendario-container {
-    padding: 2rem;
+    /* padding: 2rem; */
     /* max-width: 900px; */
-    margin: 0 auto;
+    /* margin: 0 auto;
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    margin-left: 220px;
+    margin-left: 220px; */
+    padding: 1rem;
   }
   
   .calendario-container h2 {
