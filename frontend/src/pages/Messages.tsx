@@ -219,7 +219,16 @@ const MessageForm: React.FC = () => {
 
 
             <Box mt={2} display="flex" gap={2}>
-              <Button variant="contained" color="primary" onClick={handleSend}>Enviar</Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSend}
+                sx={{ textTransform: 'none' }}
+              >
+                <FiSend style={{ marginRight: 8, marginTop: 2 }} />
+                Enviar
+              </Button>
+
               <Button variant="outlined" onClick={() => { setTitle(''); setMessage(''); setRecipients([]); }}>Limpar</Button>
             </Box>
           </Paper>

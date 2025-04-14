@@ -4,6 +4,8 @@ import '../styles/uploadBiblioteca.css';
 import api from '../services/api';
 import Notification from '../components/Notification';
 import { useNotification } from '../hooks/useNotification';
+import { Box, Button } from '@mui/material';
+import { FiSend } from 'react-icons/fi';
 
 const UploadBiblioteca: React.FC = () => {
   const [titulo, setTitulo] = useState('');
@@ -12,12 +14,12 @@ const UploadBiblioteca: React.FC = () => {
   const [previewCapa, setPreviewCapa] = useState<string | null>(null);
 
   const {
-      message,
-      type,
-      visible,
-      showNotification,
-      closeNotification
-      } = useNotification();
+    message,
+    type,
+    visible,
+    showNotification,
+    closeNotification
+  } = useNotification();
 
   const handleCapaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -97,11 +99,22 @@ const UploadBiblioteca: React.FC = () => {
           )}
         </div>
 
-        <button type="submit">Enviar Material</button>
+        {/* <button type="submit">Enviar Material</button> */}
+        <Box>
+          <Button
+            variant="contained"
+            color="primary"
+            type='submit'
+            sx={{ textTransform: 'none' }}
+          >
+            <FiSend style={{ marginRight: 8, marginTop: 2 }} />
+            Enviar Material
+          </Button>
+        </Box>
       </form>
 
       {visible && (
-          <Notification message={message} type={type} onClose={closeNotification} />
+        <Notification message={message} type={type} onClose={closeNotification} />
       )}
     </div>
   );

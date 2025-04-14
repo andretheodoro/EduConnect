@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "../styles/SalaVideo.css";
 import { FaArrowLeft } from "react-icons/fa";
+import { Box, Button } from "@mui/material";
+import { FiCornerDownRight, FiSend } from "react-icons/fi";
 
 const VideoSala: React.FC = () => {
   const [salaNome, setSalaNome] = useState("");
@@ -20,14 +22,28 @@ const VideoSala: React.FC = () => {
             value={salaNome}
             onChange={(e) => setSalaNome(e.target.value)}
           />
-          <button disabled={!salaNome} onClick={() => setEntrou(true)}>
+          {/* <button disabled={!salaNome} onClick={() => setEntrou(true)}>
             Entrar na Sala
-          </button>
+          </button> */}
+
+          <Box>
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={!salaNome}
+              onClick={() => setEntrou(true)}
+              sx={{ textTransform: 'none' }}
+            >
+              <FiCornerDownRight style={{ marginRight: 8, marginTop: 2 }} />
+              Entrar na Sala
+            </Button>
+          </Box>
+
         </div>
       ) : (
         <div className="iframe-container fade-in">
           <div className="iframe-header">
-          <button className="voltar-btn" onClick={() => setEntrou(false)}>
+            <button className="voltar-btn" onClick={() => setEntrou(false)}>
               <FaArrowLeft style={{ marginRight: "8px" }} />
               Voltar
             </button>
