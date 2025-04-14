@@ -181,10 +181,10 @@ const MessageForm: React.FC = () => {
                 Para:
               </Typography>
 
-              <Autocomplete
+              <Autocomplete<User, true, false, false>
                 multiple
                 options={allUsers}
-                getOptionLabel={(option) => option.email}
+                getOptionLabel={(option?) => option.email}
                 value={recipients}
                 onChange={(_, newValue) => setRecipients(newValue)}
                 sx={{ flex: 1 }} 

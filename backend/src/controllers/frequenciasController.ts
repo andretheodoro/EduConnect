@@ -14,3 +14,14 @@ export const getMediaFrequencia = async (req: Request, res: Response) => {
     }
   };
   
+  export const getFrequenciasDoAluno = async (req: Request, res: Response) => {
+    const alunoId = Number(req.params.alunoId);
+  
+    try {
+      const frequencias = await frequenciasService.getFrequenciasPorAlunoId(alunoId);
+      res.json(frequencias);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Erro ao buscar frequências do aluno." });
+    }
+  };

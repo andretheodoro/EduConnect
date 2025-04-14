@@ -4,6 +4,8 @@ interface Usuario {
   id: number;
   nome: string;
   tipo: 'P' | 'A' | 'R'; 
+  idPerfilUsuario: number | null; // id do aluno ou professor
+  email: string;
 }
 
 export function useUsuario() {

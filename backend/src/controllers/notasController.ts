@@ -22,3 +22,19 @@ export const getMediaNotas = async (req: Request, res: Response) => {
       res.status(500).json({ error: 'Erro ao buscar disciplinas.' });
     }
   };
+
+  export const getNotasDoAluno = async (req: Request, res: Response) => {
+    try {
+      const { alunoId } = req.params;  // Altere para req.params
+      if (!alunoId || isNaN(Number(alunoId))) {
+        res.status(400).json({ error: 'Parâmetro alunoId inválido.' });
+      }
+  
+      const notas = await notasService.getNotasPorAlunoId(Number(alunoId));
+      res.json(notas);
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao buscar notas do aluno.' });
+    }
+
+  };
+  

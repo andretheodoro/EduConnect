@@ -13,6 +13,7 @@ export const login = async (req: Request, res: Response) => {
         nome: usuario.nome,
         tipo: usuario.tipo, // 'professor' ou 'aluno'
         email: usuario.email,
+        idPerfilUsuario: usuario.idPerfilUsuario, // id do aluno ou professor
       },
     });
   } catch (error: any) {

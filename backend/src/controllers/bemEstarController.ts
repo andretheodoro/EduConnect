@@ -32,3 +32,20 @@ export const obterRespostasAlunos = async (_req: Request, res: Response) => {
     }
   };
   
+  export const obterRespostasAluno = async (req: Request, res: Response) => {
+    try {
+      const { usuarioId } = req.params;
+  
+      const dados = await bemEstarService.getRespostasAluno(usuarioId);
+  
+      if (!dados) {
+        res.status(404).json({ error: 'Respostas não encontradas' });
+      }
+  
+      res.json(dados);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Erro ao buscar respostas do aluno' });
+    }
+  };
+  

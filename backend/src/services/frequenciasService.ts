@@ -36,3 +36,20 @@ export async function calcularMediaFrequenciaPorAluno(classId?: string, subject?
     return result.rows;
   }
   
+  export async function getFrequenciasPorAlunoId(alunoId: number) {
+    const result = await pool.query(`
+      SELECT 
+        subject,
+        COUNT(*) FILTER (WHERE present = true) AS presencas,
+        COUNT(*) AS total_aulas
+      FROM Attendance
+      WHERE student_id = $1
+      GROUP BY subject;
+    `, [alunoId]);
+  
+    return result.rows.map(row => ({
+      subject: row.subject,
+      frequencia: (row.presencas / row.total_aulas) * 100,
+    }));
+  }
+  

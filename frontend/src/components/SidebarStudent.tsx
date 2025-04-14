@@ -26,7 +26,7 @@ const SidebarStudent: React.FC<SidebarStudentProps> = ({ isOpen }) => {
   return (
     <div className={`SidebarStudent ${isOpen ? 'open' : 'closed'}`}>
       <ul className="menu">
-      <li onClick={() => navigate('/')}>
+      <li onClick={() => navigate('/homeAluno')}>
           <FaHome /> {isOpen && 'Início'}
         </li>
         <li onClick={() => navigate('/feed')}>
@@ -35,7 +35,7 @@ const SidebarStudent: React.FC<SidebarStudentProps> = ({ isOpen }) => {
         <li onClick={() => navigate('/biblioteca')}>
           <FaBook /> {isOpen && 'Biblioteca Digital'}
         </li>
-        <li onClick={() => navigate('/notas-frequencias')}>
+        <li onClick={() => navigate('/notas-frequencia-aluno')}>
           <FaChartBar /> {isOpen && 'Frequências e Notas'}
         </li>
         <li onClick={() => navigate('/messages')}>

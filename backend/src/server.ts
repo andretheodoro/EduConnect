@@ -18,13 +18,16 @@ import { Server } from "socket.io";
 import authRoutes from './routes/authRoutes';
 import assistenteRoutes from './routes/assistenteRoutes';
 import uploadRoutes from './routes/uploadRoutes'; 
-import eventosRoutes from './routes/eventos';
+import messageRoutes from "./routes/messageRoutes";
+import userRoutes from "./routes/userRoutes";
+import eventosRoutes from './routes/eventosRoutes';
 import frequenciasRoutes from './routes/frequenciasRoutes';
 import alunosRoutes from './routes/alunosRoutes';
 import notasRoutes from './routes/notasRoutes';
 import bemEstarRoutes from './routes/bemEstarRoutes';
 import feedRoutes from './routes/feedRoutes';
-
+import turmasRoutes from './routes/turmasRoutes';
+  
 dotenv.config();
 
 const app = express();
@@ -48,6 +51,7 @@ app.use('/api/frequencias', frequenciasRoutes);
 app.use('/api/alunos', alunosRoutes);
 app.use('/api/bem-estar', bemEstarRoutes);
 app.use('/api/feed', feedRoutes);
+app.use('/api/turmas', turmasRoutes);
 
 app.use('/uploads', express.static(path.resolve(__dirname, '..', 'src', 'uploads')));
 

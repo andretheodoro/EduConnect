@@ -1,11 +1,20 @@
 import pool from '../config/database'; 
 
-export const salvarRespostas = async (usuarioId: number, respostas: object) => {
-  const query = `
+export const salvarRespostas = async (usuarioId: string, respostas: object) => {
+  const studentQuery = `
+  SELECT id FROM students WHERE user_id = $1`;
+  const studentResult = await pool.query(studentQuery, [usuarioId]);
+
+  if (studentResult.rowCount === 0) {
+    throw new Error('Estudante não encontrado para o user_id fornecido.');
+  }
+
+  const studentId = studentResult.rows[0].id;
+  const insertQuery = `
     INSERT INTO well_being_surveys (user_id, responses)
     VALUES ($1, $2)
   `;
-  await pool.query(query, [usuarioId, respostas]);
+  await pool.query(insertQuery, [studentId, respostas]);
 };
 
 export const getEstatisticas = async () => {
@@ -76,3 +85,32 @@ export const getAlunosEmAlerta = async () => {
   
     return alunos;
   };
+
+  export const getRespostasAluno = async (usuarioId: string) => {
+    const studentQuery = `
+      SELECT id FROM students WHERE user_id = $1
+    `;
+    const studentResult = await pool.query(studentQuery, [usuarioId]);
+  
+    if (studentResult.rowCount === 0) {
+      throw new Error('Estudante não encontrado para o user_id fornecido.');
+    }
+  
+    const studentId = studentResult.rows[0].id;
+    const query = `
+      SELECT responses
+      FROM well_being_surveys
+      WHERE user_id = $1
+      ORDER BY submitted_at DESC
+      LIMIT 1
+    `;
+    
+    const result = await pool.query(query, [studentId]);
+  
+    if (result.rowCount === 0) {
+      return null;
+    }
+  
+    return result.rows[0].responses;
+  };
+  

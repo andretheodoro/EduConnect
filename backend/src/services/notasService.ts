@@ -40,3 +40,13 @@ export async function retornarDisciplinas() {
     return result.rows;
 }
 
+export async function getNotasPorAlunoId(alunoId: number) {
+  console.log(alunoId);
+  const result = await pool.query(`
+      SELECT subject, grade
+      FROM grades
+      WHERE student_id = $1;  
+  `, [alunoId]);
+
+  return result.rows;
+}

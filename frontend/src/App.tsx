@@ -2,9 +2,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Perfil from './pages/Perfil';
 import Home from './pages/Home';
+import HomeAluno from './pages/HomeAluno';
 import Layout from './components/Layout';
 import AssistenteVirtual from './pages/AssistenteVirtual';
 import NotasFrequencias from './pages/NotasFrequencias';
+import NotasFrequenciasAluno from './pages/NotasFrequenciasAluno';
 import CalendarioEventos from './pages/CalendarioEventos';
 import SaudeBemEstarAluno from './pages/SaudeBemEstarAluno';
 import SaudeBemEstarProfessor from './pages/SaudeBemEstarProfessor';
@@ -36,7 +38,6 @@ function App() {
               </PrivateRoute>
             }
           >
-            <Route path="/" element={<Home />} />
             <Route path="perfil" element={<Perfil />} />
             <Route path="assistente" element={<AssistenteVirtual />} />
             <Route path="/calendario" element={<CalendarioEventos />} />
@@ -57,6 +58,14 @@ function App() {
               }
             />
             <Route
+              path="/homeAluno"
+              element={
+                <PrivateRoute tipoUsuario="A">
+                  <HomeAluno />
+                </PrivateRoute>
+              }
+            />
+            <Route
               path="/biblioteca"
               element={
                 <PrivateRoute tipoUsuario="A">
@@ -65,10 +74,26 @@ function App() {
               }
             />
             <Route
+              path="/notas-frequencia-aluno"
+              element={
+                <PrivateRoute tipoUsuario="A">
+                  <NotasFrequenciasAluno />
+                </PrivateRoute>
+              }
+            />
+            <Route
               path="/upload"
               element={
                 <PrivateRoute tipoUsuario="P">
                   <UploadBiblioteca />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/homeProfessor"
+              element={
+                <PrivateRoute tipoUsuario="P">
+                  <Home />
                 </PrivateRoute>
               }
             />

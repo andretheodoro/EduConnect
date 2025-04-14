@@ -20,6 +20,10 @@ model users {
   email    String   @unique @db.VarChar(150)
   password String
   type     UserType
+  student  students? 
+  teacher  teachers? 
+  feed_posts feed_posts[]
+  event events[]
 }
 
 model events {
@@ -28,6 +32,9 @@ model events {
   time        DateTime @db.Time
   description String   @db.VarChar(200)
   createdAt   DateTime @default(now()) @map("created_at")
+  user_id     String    @db.VarChar(40)
+
+  user users @relation(fields: [user_id], references: [id])
 }
 
 model messagesUser {
@@ -48,4 +55,83 @@ model messages {
 
   recipients messagesUser[] @relation("messageRecipients")
   readBy     String[]       @default([])
+}
+
+model classes {
+  id      Int       @id @default(autoincrement())
+  name    String    @db.VarChar(50)
+  students students[]
+  teachers teachers[]
+}
+
+model students {
+  id            Int       @id @default(autoincrement())
+  name          String    @db.VarChar(100)
+  email         String    @unique @db.VarChar(100)
+  birth_date    DateTime?
+  class_id      Int?
+  created_at    DateTime  @default(now())
+  user_id       String   @unique @db.VarChar(40)
+  user          users    @relation(fields: [user_id], references: [id])
+  class         classes?  @relation(fields: [class_id], references: [id])
+  grades        grades[]
+  attendance    attendance[]
+  wellBeing     well_being_surveys[]
+}
+
+model teachers {
+  id         Int       @id @default(autoincrement())
+  name       String    @db.VarChar(100)
+  email      String    @unique @db.VarChar(100)
+  created_at DateTime  @default(now())
+  user_id    String   @unique @db.VarChar(40)
+  class_id   Int?
+  user       users    @relation(fields: [user_id], references: [id])
+  class      classes?  @relation(fields: [class_id], references: [id])
+  grades     grades[]
+  attendance attendance[]
+}
+
+model grades {
+  id              Int       @id @default(autoincrement())
+  student_id      Int
+  subject         String
+  grade           Decimal    @db.Decimal(5, 2)
+  evaluation_date DateTime
+  teacher_id      Int
+
+  student students @relation(fields: [student_id], references: [id])
+  teacher teachers  @relation(fields: [teacher_id], references: [id])
+}
+
+model attendance {
+  id         Int      @id @default(autoincrement())
+  student_id Int
+  date       DateTime
+  present    Boolean
+  subject    String?
+  teacher_id Int
+
+  student students @relation(fields: [student_id], references: [id])
+  teacher teachers  @relation(fields: [teacher_id], references: [id])
+}
+
+model well_being_surveys {
+  id           Int       @id @default(autoincrement())
+  user_id      Int
+  submitted_at DateTime  @default(now())
+  responses    Json
+
+  student students @relation(fields: [user_id], references: [id])
+}
+
+model feed_posts {
+  id         Int       @id @default(autoincrement())
+  user_id    String    @db.VarChar(40)
+  text       String
+  image_url  String?
+  created_at DateTime  @default(now())
+  liked_by   Int[]     @default([])
+
+  user users @relation(fields: [user_id], references: [id])
 }

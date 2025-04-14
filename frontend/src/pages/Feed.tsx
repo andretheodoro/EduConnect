@@ -2,6 +2,8 @@ import React, { useState, useEffect, ChangeEvent } from "react";
 import api from "../services/api"; // aqui usamos o api.ts
 import "../styles/Feed.css";
 import { useUsuario } from '../hooks/useUsuario';
+import { useNotification } from '../hooks/useNotification';
+import Notification from '../components/Notification';
 
 interface Postagem {
   id: number;
@@ -20,7 +22,16 @@ const Feed: React.FC = () => {
   const [texto, setTexto] = useState("");
   const usuario = useUsuario();
 
-  const userId = usuario?.id || 0;
+  const {
+    message,
+    type,
+    visible,
+    showNotification,
+    closeNotification
+  } = useNotification();
+  
+  const userId = usuario?.idPerfilUsuario || 0;
+  const backendBaseUrl = process.env.REACT_APP_BACKEND_URL;
 
   // Carregar os posts ao montar o componente
   useEffect(() => {
@@ -29,12 +40,8 @@ const Feed: React.FC = () => {
 
       try {
         // Chamando a API para pegar todos os posts
-        const response = await api.get("/feed");
-
-        const backendBaseUrl = process.env.REACT_APP_BACKEND_URL;
-        
-        console.log(userId);
-        console.log(response.data);
+        const response = await api.get("/feed");        
+  
         // Formatando os posts recebidos da API
         const postsFormatados = response.data.map((post: any) => ({
           id: post.id,
@@ -69,13 +76,15 @@ const Feed: React.FC = () => {
   // Função de postagem
   const handlePostar = async () => {
     if (!texto || !novaImagem) {
-      alert("Preencha o texto e selecione uma imagem.");
+      showNotification('Preencha o texto e selecione uma imagem.', 'info');
       return;
     }
 
+    const _userId = usuario?.id || 0;
+
     const formData = new FormData();
     formData.append("text", texto);
-    formData.append("user_id", String(userId));
+    formData.append("user_id", String(_userId));
     formData.append("image", novaImagem);
 
     try {
@@ -87,7 +96,7 @@ const Feed: React.FC = () => {
         id: response.data.id,
         autor: "Você",
         texto: response.data.text,
-        imagem_url: `${window.location.origin}${response.data.image_url}`, // URL dinâmica
+        imagem_url: `${backendBaseUrl}${response.data.image_url}`, // URL dinâmica
         data: response.data.created_at,
         curtido: false,
         liked_by: [],
@@ -177,6 +186,9 @@ const Feed: React.FC = () => {
                 </span>
               </div>
             </div>
+            {visible && (
+              <Notification message={message} type={type} onClose={closeNotification} />
+            )}
           </div>
         ))
       )}

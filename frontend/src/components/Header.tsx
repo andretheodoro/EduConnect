@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaBars, FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
 import '../styles/header.css';
 
-import logoFull from '../assets/logo-full.png'; // Logo grande
+import logoFull from '../assets/logo-full-2.png'; // Logo grande
 import logoMini from '../assets/logo-mini.png'; // Logo mini
 
 interface HeaderProps {
@@ -37,8 +37,8 @@ const Header: React.FC<HeaderProps> = ({ isSidebarOpen, toggleSidebar }) => {
         <FaBars />
       </button>
       <div className="logo-container">
-        <span className="logo">EduConnect</span>
-        <span className="slogan">Conectando mentes, desenvolvendo futuros</span>
+        {/* <span className="logo">EduConnect</span> */}
+        {/* <span className="slogan">Conectando mentes, desenvolvendo futuros</span> */}
       </div>
       <div className="header-actions">
         <FaUserCircle className="icon" title="Perfil" onClick={handlePerfilClick} />

@@ -49,15 +49,15 @@ const AlertasRendimento: React.FC<Props> = ({ alunos }) => {
   };
 
   const getAlerta = (nota: number, frequencia: number) => {
-    if (nota < 6 && frequencia < 75) return "Nota e frequência abaixo do ideal";
-    if (nota < 6) return "Nota abaixo do ideal";
-    if (frequencia < 75) return "Frequência abaixo do ideal";
+    if (nota < 7 && frequencia < 70) return "Nota e frequência abaixo do ideal";
+    if (nota < 7) return "Nota abaixo do ideal";
+    if (frequencia < 70) return "Frequência abaixo do ideal";
     return "Desempenho adequado";
   };
 
   const getClassName = (nota: number, frequencia: number) => {
-    if (nota < 6 && frequencia < 75) return "alerta-vermelho";
-    if (nota < 6 || frequencia < 75) return "alerta-laranja";
+    if (nota < 7 && frequencia < 70) return "alerta-vermelho";
+    if (nota < 7 || frequencia < 70) return "alerta-laranja";
     return "alerta-verde";
   };
 

@@ -25,7 +25,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
   return (
     <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
       <ul className="menu">
-        <li onClick={() => navigate('/')}>
+        <li onClick={() => navigate('/homeProfessor')}>
           <FaHome /> {isOpen && 'Início'}
         </li>
         <li onClick={() => navigate('/feed')}>

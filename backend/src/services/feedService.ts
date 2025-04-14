@@ -12,15 +12,15 @@ export interface FeedPost {
 
 export const getAllPosts = async (): Promise<FeedPost[]> => {
   const result = await pool.query(`
-    SELECT fp.*, u.nome AS author 
+    SELECT fp.*, u.name AS author 
     FROM feed_posts fp 
-    JOIN usuarios u ON u.id = fp.user_id 
+    JOIN users u ON u.id = fp.user_id 
     ORDER BY created_at DESC
   `);
   return result.rows;
 };
 
-export const createNewPost = async (userId: number, text: string, imageUrl: string | null): Promise<FeedPost> => {
+export const createNewPost = async (userId: string, text: string, imageUrl: string | null): Promise<FeedPost> => {
   const result = await pool.query(
     `INSERT INTO feed_posts (user_id, text, image_url) VALUES ($1, $2, $3) RETURNING *`,
     [userId, text, imageUrl]

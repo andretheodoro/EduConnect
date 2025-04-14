@@ -48,7 +48,12 @@ const Login: React.FC = () => {
       showNotification('Login realizado com sucesso!', 'success');
 
       setTimeout(() => {
-        navigate('/'); // Ajuste para a rota correta da sua tela inicial
+        if (usuario.tipo === "P"){
+          navigate('/homeProfessor');
+        }
+        else{
+          navigate('/homeAluno');
+        }
       }, 1000);
     } catch (error: any) {
       showNotification('Email ou senha inválidos!', 'error');
