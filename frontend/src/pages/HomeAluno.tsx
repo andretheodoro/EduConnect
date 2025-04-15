@@ -1,6 +1,6 @@
 // HomeAluno.tsx
 import React, { useEffect, useState } from 'react';
-import { Bar } from 'react-chartjs-2';
+import { Bar, Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -37,6 +37,11 @@ const EMOTICONS: Record<number, string> = {
   5: '😄'
 };
 
+interface AlunoFrequencia {
+  subject: string;
+  frequencia: number;
+}
+
 const HomeAluno: React.FC = () => {
   const navigate = useNavigate();
   const usuario = useUsuario();
@@ -44,6 +49,7 @@ const HomeAluno: React.FC = () => {
   const usuarioId = usuario?.id || 0;
 
   const [dadosNotas, setDadosNotas] = useState<AlunoNota[]>([]);
+  const [dadosFrequencia, setDadosFrequencia] = useState<AlunoFrequencia[]>([]);
   const [ultimasRespostas, setUltimasRespostas] = useState<Resposta | null>(null);
 
   // Buscar Notas
@@ -57,7 +63,16 @@ const HomeAluno: React.FC = () => {
       }
     };
 
-    if (alunoId > 0) fetchNotas();
+       const fetchFrequencias = async () => {
+          try {
+            const response = await api.get(`/frequencias/aluno/${alunoId}`);
+            setDadosFrequencia(response.data);
+          } catch (error) {
+            console.error('Erro ao buscar frequências do aluno:', error);
+          }
+        };
+
+    if (alunoId > 0) fetchNotas(); fetchFrequencias();
   }, [alunoId]);
 
   // Buscar Respostas de Bem-Estar
@@ -115,6 +130,30 @@ const HomeAluno: React.FC = () => {
     },
   };
 
+  const chartOptionsLine = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: {
+        ticks: { font: { size: 10 }, maxRotation: 45, minRotation: 30 },
+      },
+      y: { beginAtZero: true },
+    },
+  };
+
+  const chartFrequenciaData = {
+    labels: dadosFrequencia.map((freq) => freq.subject),
+    datasets: [
+      {
+        label: 'Frequência (%)',
+        data: dadosFrequencia.map((freq) => freq.frequencia),
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
   return (
     <div className="home-container">
       <div className="cards-container">
@@ -132,9 +171,24 @@ const HomeAluno: React.FC = () => {
             <FaArrowRight className="ver-mais-icon" title="Ver mais" />
           </div>
         </div>
-
-        {/* Card de Saúde e Bem-Estar */}
-        <div  className="card-home" onClick={() => navigate('/saude-bemestar-aluno')}>
+     {/* Card de Frequencias */}
+     <div className="card-home" onClick={() => navigate('/notas-frequencia-aluno')}>
+          <div className="card-header">
+            <h3>Frequências</h3>
+          </div>
+          <div className="mini-chart-with-info">
+            <div className="mini-chart">
+              <Line data={chartFrequenciaData} options={chartOptionsLine} />
+            </div>
+          </div>
+          <div className="card-footer">
+            <FaArrowRight className="ver-mais-icon" title="Ver mais" />
+          </div>
+        </div>    
+      </div>
+      <div className="cards-container">
+       {/* Card de Saúde e Bem-Estar */}
+       <div  className="card-home" onClick={() => navigate('/saude-bemestar-aluno')}>
           <div className="card-header">
             <h3>Últimos Sentimentos</h3>
           </div>
@@ -168,9 +222,8 @@ const HomeAluno: React.FC = () => {
           <div className="card-footer">
             <FaArrowRight className="ver-mais-icon" title="Ver mais" />
           </div>
-     
+          </div>
         </div>
-      </div>
     </div>
   );
 };

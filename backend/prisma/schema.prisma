@@ -19,6 +19,9 @@ model users {
   name     String   @db.VarChar(150)
   email    String   @unique @db.VarChar(150)
   password String
+  teaching_area String?       @db.VarChar(1000)
+  education_level String?    @db.VarChar(1000)
+  teaching_segment String?   @db.VarChar(1000)
   type     UserType
   student  students? 
   teacher  teachers? 

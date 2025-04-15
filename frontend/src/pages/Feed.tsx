@@ -120,26 +120,28 @@ const Feed: React.FC = () => {
 
   // Função de curtir
   const toggleCurtir = async (id: number) => {
-    try {
-      const response = await api.put(`/feed/${id}/like`, {
-        user_id: userId,
-      });
-
-      const updatedLikes = response.data.liked_by;
-
-      setPosts((prev) =>
-        prev.map((p) =>
-          p.id === id
-            ? {
-              ...p,
-              curtido: updatedLikes.includes(userId),
-              liked_by: updatedLikes,
-            }
-            : p
-        )
-      );
-    } catch (error) {
-      console.error("Erro ao curtir:", error);
+    if (userId > 0){
+      try {
+        const response = await api.put(`/feed/${id}/like`, {
+          user_id: userId,
+        });
+  
+        const updatedLikes = response.data.liked_by;
+  
+        setPosts((prev) =>
+          prev.map((p) =>
+            p.id === id
+              ? {
+                ...p,
+                curtido: updatedLikes.includes(userId),
+                liked_by: updatedLikes,
+              }
+              : p
+          )
+        );
+      } catch (error) {
+        console.error("Erro ao curtir:", error);
+      }
     }
   };
 

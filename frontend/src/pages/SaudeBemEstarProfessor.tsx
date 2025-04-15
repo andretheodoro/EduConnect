@@ -100,7 +100,7 @@ const SaudeBemEstarProfessor: React.FC = () => {
           <div className="alertas-container">
             <h3>🚨 Alunos em Alerta</h3>
 
-            {alunosAlerta.length === 0 ? (
+            {alunosAlerta.filter(aluno => aluno.status !== 'OK').length === 0 ? (
               <p>Todos os alunos estão bem! 🥳</p>
             ) : (
               <table className="tabela-alerta">
@@ -113,7 +113,7 @@ const SaudeBemEstarProfessor: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {alunosAlerta.map((aluno, index) => (
+                  {alunosAlerta.filter(aluno => aluno.status !== 'OK').map((aluno, index) => (
                     <tr key={index} className={`status-${aluno.status.toLowerCase()}`}>
                       <td>{aluno.aluno}</td>
                       <td>

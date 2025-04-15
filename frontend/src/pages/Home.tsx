@@ -28,6 +28,13 @@ interface AlunoFrequencia {
   media_frequencia: number;
 }
 
+interface AlunoAlerta {
+  aluno: string;
+  respostas: { [topico: string]: string };
+  score: number;
+  status: 'OK' | 'Alerta' | 'Crítico';
+}
+
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const [dadosNotas, setDadosNotas] = useState<AlunoNota[]>([]);
@@ -36,6 +43,30 @@ const Home: React.FC = () => {
   const [frequenciaIdeal, setFrequenciaIdeal] = useState(0);
   const [loading, setLoading] = useState(true); // Novo estado de carregamento
 
+  const [alunosAlerta, setAlunosAlerta] = useState<AlunoAlerta[]>([]);
+  const [contagemStatus, setContagemStatus] = useState({ ok: 0, alerta: 0, critico: 0 });
+  
+  useEffect(() => {
+    const fetchAlunosAlerta = async () => {
+      try {
+        const res = await api.get('/bem-estar/respostas-alunos');
+        setAlunosAlerta(res.data);
+  
+        const statusCount = { ok: 0, alerta: 0, critico: 0 };
+        res.data.forEach((aluno: AlunoAlerta) => {
+          if (aluno.status === 'OK') statusCount.ok += 1;
+          if (aluno.status === 'Alerta') statusCount.alerta += 1;
+          if (aluno.status === 'Crítico') statusCount.critico += 1;
+        });
+        setContagemStatus(statusCount);
+      } catch (err) {
+        console.error('Erro ao buscar status emocional:', err);
+      }
+    };
+  
+    fetchAlunosAlerta();
+  }, []);
+  
   useEffect(() => {
     const fetchNotas = async () => {
       try {
@@ -62,7 +93,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     if (dadosFrequencia.length > 0) {
       const total = dadosFrequencia.length;
-      const frequencia = dadosFrequencia.filter((a) => a.media_frequencia >= 75).length;
+      const frequencia = dadosFrequencia.filter((a) => a.media_frequencia >= 70).length;
       setTotalAlunos(total);
       setFrequenciaIdeal(frequencia);
       setLoading(false); // Dados carregados, desabilitar o loading
@@ -83,7 +114,14 @@ const Home: React.FC = () => {
           dadosNotas.reduce((acc, a) => acc + parseFloat(a.media_nota), 0) / dadosNotas.length
         ).toFixed(1)
       : '0.0';
-  const mediaColor = parseFloat(mediaGeral) < 6 ? '#ef4444' : '#10b981';
+  const mediaColor = parseFloat(mediaGeral) < 7 ? '#ef4444' : '#10b981';
+
+  const coresNotas = dadosNotas.map((aluno) => {
+    const nota = aluno.media_nota;
+    if (parseFloat(nota) > 8) return 'rgba(16, 185, 129, 0.7)'; // verde
+    if (parseFloat(nota) >= 7) return 'rgba(249, 115, 22, 0.7)';  // laranja
+    return 'rgba(239, 68, 68, 0.7)';                                // vermelho
+  });
 
   const chartData = {
     labels: dadosNotas.map((a) => a.name.split(' ')[0]),
@@ -91,9 +129,7 @@ const Home: React.FC = () => {
       {
         label: 'Nota',
         data: dadosNotas.map((a) => parseFloat(a.media_nota)), // Certifique-se de que media_nota é convertida para número
-        backgroundColor: dadosNotas.map((a) =>
-          parseFloat(a.media_nota) >= 6 ? '#10b981' : '#ef4444'
-        ),
+        backgroundColor: coresNotas,
         borderRadius: 4,
         barThickness: 20,
       },
@@ -152,6 +188,21 @@ const Home: React.FC = () => {
     ],
   };
 
+  const chartSaudeEmocionalData = {
+    labels: ['OK', 'Alerta', 'Crítico'],
+    datasets: [
+      {
+        data: [
+          contagemStatus.ok,
+          contagemStatus.alerta,
+          contagemStatus.critico
+        ],
+        backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+        borderWidth: 1
+      }
+    ]
+  };
+  
   const doughnutOptions = {
     plugins: {
       legend: { display: false },
@@ -202,26 +253,24 @@ const Home: React.FC = () => {
         </div>
       </div>
       <div className="cards-container">
-        {/* Emocao */}
-        <div className="card-home" onClick={() => navigate('/notas-frequencias')}>
-          <div className="card-header">
-            <h3>Notas Recentes</h3>
-          </div>
-          <div className="mini-chart-with-info">
-            <div className="mini-chart">
-              <Bar data={chartData} options={chartOptions} />
-            </div>
-            <div className="media-info">
-              <span className="media-label">Média Geral:</span>
-              <span className="media-value" style={{ color: mediaColor }}>
-                {mediaGeral}
-              </span>
-            </div>
-          </div>
-          <div className="card-footer">
-            <FaArrowRight className="ver-mais-icon" title="Ver mais" />
-          </div>
-        </div>
+    {/* Estado Emocional */}
+<div className="card-home" onClick={() => navigate('/saude-bemestar')}>
+  <div className="card-header">
+    <h3>Estado Emocional</h3>
+  </div>
+  <div className="mini-chart">
+    <Doughnut
+      data={chartSaudeEmocionalData}
+      options={{
+        plugins: { legend: { display: true, position: 'right' } },
+        cutout: '70%'
+      }}
+    />
+  </div>
+  <div className="card-footer">
+    <FaArrowRight className="ver-mais-icon" title="Ver mais" />
+  </div>
+</div>
 
         {/* Frequência */}
         <div className="card-home" onClick={() => navigate('/notas-frequencias')}>

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import pool from "../config/database";
 import { PrismaClient } from "@prisma/client";
+import * as userService from '../services/userService';
 
 const prisma = new PrismaClient();
 
@@ -33,3 +34,20 @@ export const listUsers = async (req: Request, res: Response) => {
   const users = await prisma.users.findMany();
   res.json(users);
 };
+
+export const getUsuarioById = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const usuario = await userService.getUsuarioPorId(id);
+
+    if (!usuario) {
+      res.status(404).json({ message: 'Usuário não encontrado' });
+    }
+
+    res.json(usuario);
+  } catch (error) {
+    console.error('Erro ao buscar usuário:', error);
+    res.status(500).json({ message: 'Erro interno do servidor' });
+  }
+};
+

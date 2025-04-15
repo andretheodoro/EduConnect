@@ -9,8 +9,23 @@ const AssistenteVirtual: React.FC = () => {
   const [resposta, setResposta] = useState('');
   const [carregando, setCarregando] = useState(false);
 
+  const termosProibidos = [
+    'palavrão1', 'palavrão2', 'violência', 'sexo', 'matar', 'ódio', 'estupro',
+    'droga', 'arma', 'suicídio', 'terrorismo', 'racismo', 'assassinato'
+  ];
+  
+  const contemTermosProibidos = (texto: string) => {
+    const textoMinusculo = texto.toLowerCase();
+    return termosProibidos.some((termo) => textoMinusculo.includes(termo));
+  };
+
   const handleEnviar = async () => {
     if (!input.trim()) return;
+
+    if (contemTermosProibidos(input)) {
+      setResposta('❌ Sua mensagem contém termos impróprios. Reformule sua pergunta.');
+      return;
+    }
 
     setCarregando(true);
     setResposta('');
