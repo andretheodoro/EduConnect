@@ -77,15 +77,6 @@ const UploadBiblioteca: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label>Anexo (PDF ou imagem)</label>
-          <input
-            type="file"
-            accept=".pdf, image/*"
-            onChange={(e) => setArquivo(e.target.files?.[0] || null)}
-          />
-        </div>
-
-        <div className="form-group">
           <label>Imagem da Capa</label>
           <input
             type="file"
@@ -98,6 +89,17 @@ const UploadBiblioteca: React.FC = () => {
             </div>
           )}
         </div>
+
+        <div className="form-group">
+          <label>Anexo (PDF ou imagem)</label>
+          <input
+            type="file"
+            accept=".pdf, image/*"
+            onChange={(e) => setArquivo(e.target.files?.[0] || null)}
+          />
+        </div>
+
+
 
         {/* <button type="submit">Enviar Material</button> */}
         <Box>

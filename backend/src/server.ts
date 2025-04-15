@@ -52,6 +52,7 @@ app.use('/api/alunos', alunosRoutes);
 app.use('/api/bem-estar', bemEstarRoutes);
 app.use('/api/feed', feedRoutes);
 app.use('/api/turmas', turmasRoutes);
+app.use('/api', userRoutes);
 
 app.use('/uploads', express.static(path.resolve(__dirname, '..', 'src', 'uploads')));
 
