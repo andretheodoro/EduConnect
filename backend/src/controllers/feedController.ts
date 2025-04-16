@@ -25,7 +25,7 @@ export const createPost = async (req: Request, res: Response) => {
 
 export const toggleLike = async (req: Request, res: Response) => {
   const postId = parseInt(req.params.id);
-  const userId = parseInt(req.body.user_id);
+  const userId = req.body.user_id;
 
   try {
     const updatedLikes = await feedService.togglePostLike(postId, userId);

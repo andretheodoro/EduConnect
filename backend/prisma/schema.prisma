@@ -134,7 +134,7 @@ model feed_posts {
   text       String
   image_url  String?
   created_at DateTime  @default(now())
-  liked_by   Int[]     @default([])
+  liked_by   String[]  @default([])
 
   user users @relation(fields: [user_id], references: [id])
 }

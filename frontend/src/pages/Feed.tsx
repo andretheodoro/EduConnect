@@ -56,7 +56,7 @@ const Feed: React.FC = () => {
           texto: post.text,
           imagem_url: `${backendBaseUrl}${post.image_url}`, // URL dinâmica
           data: post.created_at,
-          curtido: post.liked_by.includes(userId),
+          curtido: post.liked_by.includes(String(usuario?.id)),
           liked_by: post.liked_by,
         }));
 
@@ -120,10 +120,9 @@ const Feed: React.FC = () => {
 
   // Função de curtir
   const toggleCurtir = async (id: number) => {
-    if (userId > 0){
       try {
         const response = await api.put(`/feed/${id}/like`, {
-          user_id: userId,
+          user_id: String(usuario?.id),
         });
   
         const updatedLikes = response.data.liked_by;
@@ -133,7 +132,7 @@ const Feed: React.FC = () => {
             p.id === id
               ? {
                 ...p,
-                curtido: updatedLikes.includes(userId),
+                curtido: updatedLikes.includes(String(usuario?.id)),
                 liked_by: updatedLikes,
               }
               : p
@@ -142,7 +141,6 @@ const Feed: React.FC = () => {
       } catch (error) {
         console.error("Erro ao curtir:", error);
       }
-    }
   };
 
   return (

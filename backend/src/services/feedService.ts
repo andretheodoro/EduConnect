@@ -28,9 +28,9 @@ export const createNewPost = async (userId: string, text: string, imageUrl: stri
   return result.rows[0];
 };
 
-export const togglePostLike = async (postId: number, userId: number): Promise<number[]> => {
+export const togglePostLike = async (postId: number, userId: string): Promise<string[]> => {
   const result = await pool.query(`SELECT liked_by FROM feed_posts WHERE id = $1`, [postId]);
-  const likedBy: number[] = result.rows[0]?.liked_by || [];
+  const likedBy: string[] = result.rows[0]?.liked_by || [];
 
   const updatedLikes = likedBy.includes(userId)
     ? likedBy.filter(id => id !== userId)
