@@ -1,7 +1,0 @@
-node_modules
-.env
-dist
-build
-/backend/src/uploads/capas/*
-/backend/src/uploads/materials/*
-.vscode/settings.json
