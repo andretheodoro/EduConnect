@@ -1,5 +1,5 @@
 // src/components/Layout.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Sidebar from './Sidebar';
@@ -7,16 +7,29 @@ import SidebarStudent from './SidebarStudent';
 import { Outlet } from 'react-router-dom';
 import '../styles/layout.css';
 import { useUsuario } from '../hooks/useUsuario';
+import { useNavigate, useLocation  } from 'react-router-dom';
 
 const Layout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
   const usuario = useUsuario();
+  const location = useLocation();
 
+  useEffect(() => {
+    if (location.pathname === "/") {
+    if (usuario?.tipo === "P") {
+      navigate('/homeProfessor');
+    } else if (usuario?.tipo === "A") {
+      navigate('/homeAluno');
+    }
+  }
+  }, [usuario, navigate]);
+ 
   return (
     <div className="layout">
       {/* 👉 Aqui passamos a prop corretamente */}
