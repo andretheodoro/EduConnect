@@ -172,3 +172,24 @@ Certifique-se de que o backend da aplicação esteja rodando corretamente. O fro
 ## 📝 Licença
 
 Este projeto está sob a Licença MIT.
+
+![image](https://github.com/user-attachments/assets/715d7c65-6552-4c01-8aff-eefa39c7eb2f)
+![image](https://github.com/user-attachments/assets/01ad7d66-f8d8-4191-ba6d-f3ab7e41f32d)
+![image](https://github.com/user-attachments/assets/acada10e-b4b0-45bf-b76b-d06915320d4c)
+![image](https://github.com/user-attachments/assets/5c7919f3-5dec-43be-885e-5320cbd60b73)
+![image](https://github.com/user-attachments/assets/b735f3fc-f65e-4366-a65e-308c13cd0876)
+![image](https://github.com/user-attachments/assets/d41d6e6f-c587-4b53-8d78-e1a37c47caa1)
+![image](https://github.com/user-attachments/assets/2dae2e0f-49fd-415f-9548-2af17780d4f5)
+![image](https://github.com/user-attachments/assets/773f8ffa-9a47-4b23-b025-764b226104af)
+![image](https://github.com/user-attachments/assets/c5ce7c5e-df85-4cf4-9a6d-9275c2a81564)
+![image](https://github.com/user-attachments/assets/c13c4977-9fd6-47c0-9ea3-ac00dcac38ff)
+![image](https://github.com/user-attachments/assets/4223b0b5-0947-41e9-b986-814041bc6240)
+![image](https://github.com/user-attachments/assets/1e4ad1bd-91f8-4b8c-8f88-c00ed392a136)
+![image](https://github.com/user-attachments/assets/d0ab475e-4f55-48c4-b350-97da59e07ad1)
+![image](https://github.com/user-attachments/assets/b8565520-40f9-4fdc-a859-1838d666816f)
+![image](https://github.com/user-attachments/assets/a8d5013d-6a4c-4681-97d5-2c1fe12bb69c)
+![image](https://github.com/user-attachments/assets/119e8af4-da4f-4d1d-b07d-28814f52ecf6)
+![image](https://github.com/user-attachments/assets/81e3a2ff-6bed-4d3b-9b0d-b513ed75f59e)
+![image](https://github.com/user-attachments/assets/b30518e8-f84f-42f9-8168-168dd01f4bd7)
+
+
