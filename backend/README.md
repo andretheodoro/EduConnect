@@ -1,137 +1,236 @@
 # 📚 EduConnect - Backend
 
-Este é o backend da plataforma **EduConnect**, uma solução para facilitar a comunicação e organização em ambientes educacionais. A aplicação é construída com **Node.js**, **Express**, **Prisma** e **TypeScript**.
+**EduConnect** é uma plataforma educacional interativa que conecta professores e alunos, promovendo a colaboração, o acompanhamento do desempenho e o bem-estar estudantil, focando em uma solução para facilitar a comunicação e organização em ambientes educacionais. Este repositório corresponde ao **backend da aplicação**, desenvolvido com Node.js e TypeScript.
 
 ---
 
-## 🚀 Funcionalidades
+## ✨ Funcionalidades Implementadas
+O backend do EduConnect foi desenvolvido em Node.js com Express, estruturado em controllers para separar responsabilidades. Abaixo estão descritas todas as funcionalidades implementadas no backend:
 
-- ✅ **Autenticação de Usuários**
-  - Registro e login
-  - JWT para autenticação segura
-- 📬 **Mensagens Internas**
-  - Envio de mensagens para um ou mais usuários
-  - Histórico de mensagens enviadas e recebidas
-  - Suporte a **WebSockets** para mensagens em tempo real
-- 🧑‍🏫 **Sistema de Usuários**
-  - Listagem de usuários (excluindo o usuário logado)
-  - Organização por papéis (ex: aluno, professor)
-- 💬 **Integração com Frontend**
-  - API pronta para ser consumida por frontends React, Construct 3, etc.
+### 🔐 1. **Autenticação e Autorização**
+- Login de usuários (alunos e professores) com validação de credenciais.
+- Geração e verificação de tokens JWT para autenticação.
+- Controle de acesso baseado em papéis (aluno, professor).
+
+### 👥 2. **Gerenciamento de Perfil**
+- Consulta do Perfil do Usuário logado.
+  
+### 📊 3. **Gerenciamento de Frequência e Notas - Professor**
+- Lançamento e consulta de notas gerais por disciplina.
+- Lançamento e consulta de frequências gerais por disciplina.
+- Geração de alertas aos professores para acompanhamento.
+
+### 🎓 4. **Gerenciamento de Frequência e Notas - Aluno**
+- Visualização de notas e frequência por aluno
+  
+### 📚 5. **Biblioteca Digital**
+- Upload de materiais didáticos.
+- Visualização de materiais didáticos.
+
+### 💚 6. **Saúde e Bem-Estar**
+- Registro de informações relacionadas ao bem-estar dos alunos.
+- Monitoramento de indicadores de saúde emocional.
+- Geração de alertas para acompanhamento.
+- Acompanhamento lúdico e visual do estado emocional dos alunos
+
+### 📅 7. **Calendário Escolar**
+- Criação e gerenciamento de eventos escolares.
+- Associação de eventos a usuários e disciplinas.
+- Exibição por mês para alunos e professores
+
+### 💬 8. **Chat Privado (Mensagens)**
+- Suporte a WebSockets para mensagens em tempo real entre usuários.
+- Histórico de mensagens enviadas e recebidas.
+- Notificações de novas mensagens.
+
+### 🤖 9. **Assistente Virtual**
+- Integração com serviços de inteligência artificial (OpenAI) para suporte aos usuários.
+- Bloqueio de pesquisa à termos sensíveis.
+- Geração de respostas automáticas para dúvidas pedagógicas
+- Apoio a professores e alunos com base em IA (OpenAI)
+
+### 📰 10. **Feed**
+- Sistema de rede social interna para a comunidade escolar:
+- Postagens com imagens e textos por professores e alunos
+- Curtidas
+- Visualização de feed por data
+  
+---
+
+## 🧩 Tecnologias Utilizadas
+
+| Tecnologia      | Descrição |
+|----------------|-----------|
+| **Node.js**       | Ambiente de execução JavaScript no servidor |
+| **TypeScript**  | Superset do JavaScript que adiciona tipagem estática |
+| **Express** | Framework web para Node.js |
+| **Prisma**   | ORM para interagir com o banco de dados |
+| **JWT** | Autenticação baseada em tokens JSON Web Tokens |
+| **Docker** | Containerização da aplicação |
+| **Socket.IO** | Comunicação em tempo real para o chat |
+| **PostgreSQL** | Banco de dados relacional |
+| **Nodemailer** | Envio de e-mails para notificações e recuperação de senha |
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
-
-- [Node.js](https://nodejs.org/)
-- [Express](https://expressjs.com/)
-- [Prisma ORM](https://www.prisma.io/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Socket.io](https://socket.io/)
-- [PostgreSQL](https://www.postgresql.org/)
-- [dotenv](https://github.com/motdotla/dotenv)
-
----
-
-## 📁 Estrutura de Pastas
+## 📁 Estrutura do Projeto
 
 ```
-/backend
-├── src/
-│   ├── controllers/       # Lógica dos endpoints
-│   ├── routes/            # Definição das rotas da API
-│   ├── services/          # Regras de negócio
-│   ├── prisma/            # Cliente e schema do Prisma
-│   └── socket.ts          # Integração com WebSockets
-├── .env                   # Variáveis de ambiente
-├── package.json
-└── tsconfig.json
+backend/
+├── .vscode/              # Configurações do editor
+├── prisma/               # Esquemas e migrações do banco de dados
+├── src/                  # Código-fonte principal
+│   ├── controllers/      # Lógica de controle das rotas
+│   ├── middlewares/      # Middlewares para tratamento de requisições
+│   ├── routes/           # Definição das rotas da API
+│   ├── services/         # Serviços para regras de negócio
+│   ├── utils/            # Utilitários e funções auxiliares
+│   └── index.ts          # Ponto de entrada da aplicação
+├── .env-example          # Arquivo exemplo para criação do arquivo .env - variáveis de ambiente
+├── docker-compose.yml    # Configuração do Docker Compose
+├── dockerfile            # Dockerfile para containerização
+├── package.json          # Dependências e scripts do projeto
+├── tsconfig.json         # Configurações do TypeScript
+└── README.md             # Documentação do projeto
 ```
 
 ---
 
-## ⚙️ Como Rodar Localmente
+## ▶️ Como Executar
 
-### 1. Clone o repositório
+### Pré-requisitos
+- Node.js v18 ou superior
+- Docker e Docker Compose
+- PostgreSQL
+
+### Instalação
+
+1. Clone o repositório:
 
 ```bash
 git clone https://github.com/andretheodoro/EduConnect.git
 cd EduConnect/backend
 ```
 
-### 2. Instale as dependências
+2. Instale as dependências:
 
 ```bash
 npm install
 ```
 
-### 3. Configure o banco de dados
+3. Configure as variáveis de ambiente:
 
-Crie um arquivo `.env` com base no `.env.example`:
+O arquivo `.env-example` fornece um modelo. Para utilizá-lo:
 
-```env
-DATABASE_URL=postgresql://usuario:senha@localhost:5432/educonnect
-JWT_SECRET=sua_chave_secreta
-```
+1. Copie o conteúdo de `.env.example` para um novo arquivo chamado `.env`.
+2. Preencha os valores conforme o seu ambiente local ou de produção.
 
-### 4. Execute as migrations
+### 🔧 Variáveis Obrigatórias
+
+| Variável               | Descrição                                                                 | Exemplo                                      |
+|------------------------|---------------------------------------------------------------------------|----------------------------------------------|
+| `POSTGRES_DB`          | Nome do banco de dados PostgreSQL.                                        | `educonnect`                                 |
+| `POSTGRES_USER`        | Usuário do banco de dados.                                                | `admin`                                      |
+| `POSTGRES_PASSWORD`    | Senha do banco de dados.                                                  | `senha123`                                   |
+| `DB_HOST`              | Host onde o banco de dados está hospedado.                                | `localhost` ou `db` (em containers Docker)   |
+| `DB_PORT`              | Porta de conexão do banco de dados.                                       | `5432`                                       |
+| `PORT`                 | Porta na qual o backend será executado.                                   | `3000`                                       |
+| `JWT_SECRET`           | Chave secreta usada para assinar os tokens JWT (autenticação).            | `minha_chave_secreta_super_segura`           |
+| `OPENAI_API_KEY`       | Chave de API da OpenAI (para integração com o assistente virtual).        | `sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`    |
+| `DATABASE_URL`         | URL completa de conexão com o banco (útil para deploy em nuvem).          | `postgresql://user:pass@host:port/dbname`    |
+| `PASSWORD_USER_DEFAULT`| Senha padrão atribuída ao criar novos usuários automaticamente.           | `educonnect123`                              |
+---
+
+### 🛡️ Boas práticas
+
+- **Não versionar**: Nunca versionar o arquivo `.env` real com dados sensíveis. Mantenha o `.env.example` para referência.
+- **Senhas seguras**: Use senhas fortes e considere utilizar variáveis separadas para ambientes de produção, testes e desenvolvimento.
+- **OpenAI API**: Para usar funcionalidades com IA (como o assistente pedagógico), uma chave válida da OpenAI é obrigatória.
+
+4. Execute as migrações do banco de dados:
 
 ```bash
 npx prisma migrate dev
 ```
 
-### 5. Inicie o servidor
+5. Inicie a aplicação:
 
 ```bash
-npm run dev
+npm run start:dev
 ```
 
----
-
-## ✅ Endpoints da API
-
-> A API **não utiliza Swagger** ou outras bibliotecas de documentação. Abaixo estão os principais endpoints disponíveis:
-
-### 📌 Autenticação
-
-- `POST /auth/register` – Cria um novo usuário
-- `POST /auth/login` – Retorna um token JWT válido
-
-### 👤 Usuários
-
-- `GET /users/:email` – Lista todos os usuários, exceto o atual
-
-### 💬 Mensagens
-
-- `POST /messages/send` – Envia uma nova mensagem
-- `GET /messages/received/:email` – Lista mensagens recebidas
-- `GET /messages/sent/:email` – Lista mensagens enviadas
+A API estará disponível em `http://localhost:3000`.
 
 ---
 
-## 🔌 WebSocket
+## 📌 Endpoints da API
 
-A API suporta comunicação em tempo real via **Socket.io**:
+### 🧑‍🎓 Alunos (`alunosRoutes.ts`)
+- `GET /api/alunos/turmas` – Lista todas as turmas (classes) dos alunos.
 
-- Evento `sendMessage` – Envia mensagem para destinatários conectados
-- Evento `new_message` – Notificação em tempo real para mensagens recebidas
+### 🤖 Assistente Virtual (`assistenteRoutes.ts`)
+- `POST /api/assistente` – Pergunta ao assistente (OpenAI).
 
+### 🔐 Autenticação (`authRoutes.ts`)
+- `POST /api/login` – Login.
+- `POST /api/gerar-hash` – Método de teste para geração de hase baseado em uma senha (login).
+
+### 🧠 Bem-Estar (`bemEstarRoutes.ts`)
+- `POST /api/bem-estar/respostas` – Envia resposta do questionário respondido pelos alunos.
+- `GET /api/bem-estar/estatisticas` – Obtém estatisticas referente as respostas de bem-estar dos alunos para exibição aos professores.
+- `GET /api/bem-estar/respostas-alunos` – Obtém as respostas enviadas pelos alunos referentes ao questionário de bem-estar emocional.
+- `GET /api/bem-estar/respostas/:usuarioId` – Obtém as respostas enviadas por um aluno em específico (:usuarioId) referentes ao questionário de bem-estar emocional.
+
+### 📅 Eventos (`eventosRoutes.ts`)
+- `GET /api/eventos` – Lista eventos.
+- `POST /api/eventos` – Cria evento.
+- `GET /api/eventos/:usuarioId` – Retorna eventos do usuário (:usuarioId).
+
+### 📰 Feed (`feedRoutes.ts`)
+- `GET /api/feed` – Lista postagens.
+- `POST /api/feed` – Cria postagem.
+- `PUT /api/feed/:id/like` – Atualiza "curtida" da postagem específica (:id).
+
+### 📊 Frequências (`frequenciasRoutes.ts`)
+- `GET /api/frequencias/media` – Retorna média de frequência geral de todos os alunos.
+- `GET /api/frequencias/aluno/:alunoId` – Retorna média de frequência somente do aluno específico (:alunoId).
+
+### 💬 Mensagens (`messageRoutes.ts`)
+- `POST /send` – Envia mensagem.
+- `GET /sent/:userId` – Listar mensagens enviadas por usuário.
+- `GET /received/:userId` – Listar mensagens recebidas por usuário.
+- `PATCH /mark-as-read/:id` – Marcar mensagem como lida.
+
+### 📝 Notas (`notasRoutes.ts`)
+- `GET /api/notas/media` – Retorna média de notas geral de todos os alunos.
+- `GET /api/notas/disciplinas` – Retorna as disciplinas (subject -> GRADES) das notas lançadas.
+- `GET /api/notas/aluno/:alunoId` – Retorna média de notas somente do aluno específico (:alunoId).
+
+### 🏫 Turmas (`turmasRoutes.ts`)
+- `GET /api/turmas` – Lista turmas.
+
+### 📁 Uploads (`uploadRoutes.ts`)
+- `GET /materiais` – Lista todos arquivos/materais que foram realizados uploads pelos professores.
+
+### 👤 Usuários (`userRoutes.ts`)
+- `POST /register` – Cria novo usuário.
+- `GET /users` – Lista usuários.
+- `GET /users/:id` – Detalhes do usuário.
+- `GET /profile/:userId` – Retorna perfil do usuário.
 ---
 
-## 🧪 Testes
+## ✅ Melhorias Futuras
 
-> *(A API ainda não possui testes automatizados. Sugestão futura: Jest + Supertest)*
-
+- Implementação de testes automatizados.
+- Integração com serviços de terceiros para análise de dados.
+- Melhoria na escalabilidade e performance da aplicação.
+- Documentação da API com Swagger.
 ---
 
-## 📄 Licença
-
-Este projeto está sob a licença **MIT**. Veja o arquivo `LICENSE` para mais detalhes.
-
+## 🔗 Integração com o Frontend
+API pronta para ser consumida por frontends React, Construct 3, etc.
 ---
 
-## 🤝 Contribuições
+## 📝 Licença
 
-Contribuições são bem-vindas! Sinta-se livre para abrir issues ou pull requests com melhorias, sugestões ou correções.
-
----
+Este projeto está sob a Licença MIT.
