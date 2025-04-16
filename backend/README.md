@@ -161,6 +161,20 @@ npm run start:dev
 
 A API estará disponível em `http://localhost:3000`.
 
+## Docker
+
+Este projeto utiliza Docker para configurar e orquestrar o ambiente de desenvolvimento e produção, facilitando o processo de configuração e execução de containers para o back-end e banco de dados.
+
+### Configurar o Docker
+
+O projeto já possui o arquivo docker-compose.yml configurado para definir os containers necessários para rodar o back-end e o banco de dados PostgreSQL. Para subir os containers, execute o seguinte comando:
+
+```bash
+docker-compose up --build
+```
+
+Esse comando irá construir e iniciar os containers do Docker.
+
 ---
 
 ## 📌 Endpoints da API
