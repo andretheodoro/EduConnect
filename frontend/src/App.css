@@ -40,13 +40,13 @@
 :root {
   --header-height: 64px;
 
-  --primary-color: #2563eb;         /* Azul principal */
+  --primary-color: #2563eb;         
   --primary-gradient: linear-gradient(to right, #2c3e50, #2980b9);
-  --background-color: #f3f4f6;       /* Cinza claro */
-  --sidebar-bg: #2c3e50;        /* Azul escuro para o menu */
-  --text-color: #ffffff;            /* Branco para textos */
-  --content-color: #111827;         /* Preto suave para conteúdo */
-  --footer-bg: #2563eb;             /* Cinza escuro */
+  --background-color: #f3f4f6;       
+  --sidebar-bg: #2c3e50;        
+  --text-color: #ffffff;           
+  --content-color: #111827;        
+  --footer-bg: #2563eb;            
 }
 
 body {
@@ -74,6 +74,6 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background-color: #f3f4f6; /* ou o cinza claro que você quiser */
+  background-color: #f3f4f6; 
   box-sizing: border-box;
 }

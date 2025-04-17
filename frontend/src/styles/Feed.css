@@ -151,7 +151,6 @@
     border-radius: 12px;
   }
 
-  /* Container da imagem prévia (imagem a ser postada) */
 .preview-img {
   width: 100%;
   /* max-width: 400px; */
@@ -162,7 +161,6 @@
   /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); */
 }
 
-/* Imagem do post */
 .post-image {
   width: 100%;
   /* max-width: 600px; */
@@ -174,7 +172,6 @@
   /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); */
 }
 
-/* Estilização extra para o card de post */
 .post-card {
   background-color: #fff;
   border-radius: 16px;
@@ -183,7 +180,6 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilização básica do feed */
 .feed-container {
   /* max-width: 800px;
   margin: 0 auto;

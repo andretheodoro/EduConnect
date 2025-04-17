@@ -44,7 +44,6 @@ export const loginUser = async (email: string, password: string) => {
     { expiresIn: "1h" }
   );
 
-  // Retorna token e dados relevantes do usuário
   return {
     token,
     usuario: {

@@ -69,7 +69,7 @@ const Feed: React.FC = () => {
 
     // Chama a função para carregar os posts
     fetchPosts();
-  }, [usuario]); // A dependência vazia garante que isso seja executado uma vez ao montar o componente
+  }, [usuario]); 
 
   // Função de upload de imagem
   const handleImagemChange = (e: ChangeEvent<HTMLInputElement>) => {

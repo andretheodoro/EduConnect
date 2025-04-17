@@ -113,9 +113,9 @@ const NotasFrequencias: React.FC = () => {
 
   const coresNotas = dadosNotas.map((aluno) => {
     const nota = aluno.media_nota;
-    if (nota >= mediaTurma) return 'rgba(16, 185, 129, 0.7)'; // verde
-    if (nota >= mediaTurma - 1) return 'rgba(249, 115, 22, 0.7)';  // laranja
-    return 'rgba(239, 68, 68, 0.7)';                                // vermelho
+    if (nota >= mediaTurma) return 'rgba(16, 185, 129, 0.7)'; 
+    if (nota >= mediaTurma - 1) return 'rgba(249, 115, 22, 0.7)';  
+    return 'rgba(239, 68, 68, 0.7)';                               
   });
 
   const chartNotasData = {

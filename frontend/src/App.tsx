@@ -26,10 +26,8 @@ function App() {
       <Router>
 
         <Routes>
-          {/* Rota pública */}
           <Route path="/login" element={<Login />} />
 
-          {/* Rota protegida com Layout (Header + Sidebar + Footer) */}
           <Route
             path="/"
             element={

@@ -37,7 +37,6 @@ const MessageForm: React.FC = () => {
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
 
   useEffect(() => {
-    // Talvez seja necessário adicionar o socket na "home" ?
     if (!socket.connected) {
       console.log('[Socket] BBB Não conectado. Conectando...');
       socket.connect();
@@ -264,7 +263,7 @@ const MessageForm: React.FC = () => {
                           sx={{
                             cursor: 'pointer',
                             '&:hover': {
-                              backgroundColor: 'action.hover', // muda fundo no hover
+                              backgroundColor: 'action.hover', 
                             },
                           }}
                         >

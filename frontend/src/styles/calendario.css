@@ -12,7 +12,7 @@
   .calendario-container h2 {
     margin-bottom: 1rem;
     font-size: 24px;
-    color: #1e3a8a; /* Azul escuro */
+    color: #1e3a8a; 
     text-align: center;
   }
   
@@ -81,7 +81,6 @@
     }
   }
   
-  /* Estilo base do calendário */
 .react-calendar {
     border: none;
     background-color: #fff;
@@ -92,7 +91,7 @@
   
   /* Dia de hoje */
   .today {
-    background-color: #10b981 !important; /* Verde */
+    background-color: #10b981 !important;
     color: #fff !important;
     border-radius: 50%;
     font-weight: bold;
@@ -100,7 +99,7 @@
   
   /* Dias com eventos */
   .highlight {
-    background-color: #f63b3b !important; /* Azul */
+    background-color: #f63b3b !important; 
     color: #fff !important;
     border-radius: 50%;
     font-weight: 600;

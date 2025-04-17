@@ -26,7 +26,7 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    unlockNotificationSound(); // Liberar o autoplay para as notificações
+    unlockNotificationSound(); 
 
     if (!validateEmail(email)) {
       setEmailError('Por favor, insira um email válido.');

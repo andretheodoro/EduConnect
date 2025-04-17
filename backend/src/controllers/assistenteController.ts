@@ -1,4 +1,3 @@
-// src/controllers/assistenteController.ts
 import { Request, Response } from 'express';
 import { OpenAI } from 'openai'; 
 import dotenv from 'dotenv';
@@ -18,7 +17,6 @@ export const consultarAssistente = async (req: Request, res: Response) => {
   }
 
   try {
-    // Usando o método createChatCompletion diretamente
     const resposta = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [

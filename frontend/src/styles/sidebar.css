@@ -6,8 +6,8 @@
   position: fixed;
   top: var(--header-height);
   left: 0;
-  z-index: 999; /* menor que o header */
-  border-top: none; /* só pra garantir */
+  z-index: 999; 
+  border-top: none; 
 }
   
   .sidebar.closed {
@@ -21,7 +21,7 @@
     color: var(--text-color);
     margin-right: 1rem;
     cursor: pointer;
-    z-index: 1; /* garante que fique clicável */
+    z-index: 1; 
   }
   
   .menu {

@@ -1,4 +1,3 @@
-// src/components/Layout.tsx
 import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
@@ -39,7 +38,7 @@ const Layout: React.FC = () => {
         {/* <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} /> */}
         <div className="page-content"
           style={{
-            marginLeft: sidebarOpen ? 240 : 70, // ou o valor da largura da sidebar
+            marginLeft: sidebarOpen ? 240 : 70, 
             transition: 'margin-left 0.3s ease',
             width: `calc(100% - ${sidebarOpen ? 290 : 120}px)`,
           }}>

@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     padding: 40px 20px;
-    min-height: calc(100vh - 100px); /* altura total menos header/footer */
+    min-height: calc(100vh - 100px); 
     background-color: #f4f6f9;
   }
   

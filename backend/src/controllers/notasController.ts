@@ -25,7 +25,7 @@ export const getMediaNotas = async (req: Request, res: Response) => {
 
   export const getNotasDoAluno = async (req: Request, res: Response) => {
     try {
-      const { alunoId } = req.params;  // Altere para req.params
+      const { alunoId } = req.params;  
       if (!alunoId || isNaN(Number(alunoId))) {
         res.status(400).json({ error: 'Parâmetro alunoId inválido.' });
       }

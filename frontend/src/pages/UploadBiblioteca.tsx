@@ -46,7 +46,7 @@ const UploadBiblioteca: React.FC = () => {
       const response = await api.post('/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'professor-id': '1', // futuramente virá do token
+          'professor-id': '1', 
         }
       });
 

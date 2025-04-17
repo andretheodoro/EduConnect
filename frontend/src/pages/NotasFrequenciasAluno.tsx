@@ -51,7 +51,7 @@ const NotasFrequenciasAluno: React.FC = () => {
 
   useEffect(() => {
     if (!(alunoId > 0)) {
-        return; // Não faz a requisição se o alunoId não estiver disponível
+        return; 
     }
     
     const fetchNotas = async () => {
@@ -87,9 +87,9 @@ const NotasFrequenciasAluno: React.FC = () => {
 
   const coresNotas = dadosNotas.map((nota) => {
     const grade = nota.grade;
-    if (grade >= mediaNotaAluno) return 'rgba(16, 185, 129, 0.7)'; // verde
-    if (grade >= mediaNotaAluno - 1) return 'rgba(249, 115, 22, 0.7)'; // laranja
-    return 'rgba(239, 68, 68, 0.7)'; // vermelho
+    if (grade >= mediaNotaAluno) return 'rgba(16, 185, 129, 0.7)'; 
+    if (grade >= mediaNotaAluno - 1) return 'rgba(249, 115, 22, 0.7)'; 
+    return 'rgba(239, 68, 68, 0.7)'; 
   });
 
   const chartNotasData = {

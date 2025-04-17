@@ -42,7 +42,6 @@ export const uploadMaterial = async (req: Request, res: Response): Promise<void>
   }
 };
 
-// GET: Listar materiais
 export const listarMateriais = async (req: Request, res: Response): Promise<void> => {
   try {
     const materialsDir = path.join(__dirname, '..', 'uploads', 'materials');

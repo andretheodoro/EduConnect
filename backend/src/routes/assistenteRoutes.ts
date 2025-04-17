@@ -1,4 +1,3 @@
-// src/routes/assistenteRoutes.ts
 import express from 'express';
 import { consultarAssistente } from '../controllers/assistenteController';
 

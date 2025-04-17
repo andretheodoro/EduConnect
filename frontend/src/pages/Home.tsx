@@ -41,7 +41,7 @@ const Home: React.FC = () => {
   const [dadosFrequencia, setDadosFrequencia] = useState<AlunoFrequencia[]>([]);
   const [totalAlunos, setTotalAlunos] = useState(0);
   const [frequenciaIdeal, setFrequenciaIdeal] = useState(0);
-  const [loading, setLoading] = useState(true); // Novo estado de carregamento
+  const [loading, setLoading] = useState(true);
 
   const [alunosAlerta, setAlunosAlerta] = useState<AlunoAlerta[]>([]);
   const [contagemStatus, setContagemStatus] = useState({ ok: 0, alerta: 0, critico: 0 });
@@ -96,12 +96,12 @@ const Home: React.FC = () => {
       const frequencia = dadosFrequencia.filter((a) => a.media_frequencia >= 70).length;
       setTotalAlunos(total);
       setFrequenciaIdeal(frequencia);
-      setLoading(false); // Dados carregados, desabilitar o loading
+      setLoading(false); 
     }
   }, [dadosFrequencia]);
 
   if (loading) {
-    return <div>Carregando...</div>; // Exibe uma mensagem ou um loader enquanto os dados são carregados
+    return <div>Carregando...</div>;
   }
 
 
@@ -118,9 +118,9 @@ const Home: React.FC = () => {
 
   const coresNotas = dadosNotas.map((aluno) => {
     const nota = aluno.media_nota;
-    if (parseFloat(nota) > 8) return 'rgba(16, 185, 129, 0.7)'; // verde
-    if (parseFloat(nota) >= 7) return 'rgba(249, 115, 22, 0.7)';  // laranja
-    return 'rgba(239, 68, 68, 0.7)';                                // vermelho
+    if (parseFloat(nota) > 8) return 'rgba(16, 185, 129, 0.7)'; 
+    if (parseFloat(nota) >= 7) return 'rgba(249, 115, 22, 0.7)'; 
+    return 'rgba(239, 68, 68, 0.7)';                               
   });
 
   const chartData = {
@@ -128,7 +128,7 @@ const Home: React.FC = () => {
     datasets: [
       {
         label: 'Nota',
-        data: dadosNotas.map((a) => parseFloat(a.media_nota)), // Certifique-se de que media_nota é convertida para número
+        data: dadosNotas.map((a) => parseFloat(a.media_nota)), 
         backgroundColor: coresNotas,
         borderRadius: 4,
         barThickness: 20,
@@ -153,10 +153,9 @@ const Home: React.FC = () => {
       const ctx = chart.ctx;
       ctx.restore();
 
-      // Certifique-se de que os dados estão carregados antes de desenhar
       if (totalAlunos === 0 || frequenciaIdeal === 0) {
         ctx.restore();
-        return; // Não desenha nada até que os dados estejam disponíveis
+        return; 
       }
 
       const percentText = totalAlunos > 0

@@ -12,7 +12,7 @@ export const criarEventoParaUsuario = async (
   description: string,
   usuarioId: string
 ) => {
-  const id = uuidv4(); // Gera ID único
+  const id = uuidv4(); 
 
   const query = `
     INSERT INTO events (id, date, time, description, user_id)
