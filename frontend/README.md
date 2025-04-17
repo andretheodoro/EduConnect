@@ -157,15 +157,31 @@ Certifique-se de que o backend da aplicação esteja rodando corretamente. O fro
 
 ---
 
+## 🚀 Próximos Passos do Projeto EduConnect
 
-## ✅ Melhorias Futuras
+Confira abaixo as próximas etapas previstas para a evolução do EduConnect:
 
-- Integração real com backend para todos os módulos
-- Autenticação OAuth (Google ou Microsoft)
-- Responsividade avançada
-- Temas claro/escuro
-- Acessibilidade aprimorada
-- IA real para o assistente virtual
+- ✅ **Implementação de Funcionalidades CRUD**  
+  Gravação, exclusão e pesquisa de dados gerais do sistema.  
+  *(Atualmente, os dados estão sendo inseridos manualmente via banco de dados.)*
+
+- 📊 **Implementação de Análises Avançadas**  
+  Utilização de Inteligência Artificial para gerar insights sobre o desempenho acadêmico e o bem-estar emocional dos alunos.
+
+- 👨‍👩‍👧‍👦 **Expansão de Funcionalidades para Pais e Responsáveis**  
+  Inclusão de módulos específicos que possibilitam o acompanhamento da rotina escolar dos alunos pelos responsáveis.
+
+- 🕹️ **Games de Aprendizagem**  
+  Desenvolvimento de uma mecânica de gamificação com sistema de pontos, medalhas e recompensas por participação em atividades.
+
+- 🌐 **Integração com Comunidade e Escolas Próximas**  
+  Criação de um **Fórum Educacional** colaborativo para debates sobre metodologias, desafios pedagógicos e boas práticas.
+
+- 📱 **Expansão para Plataforma Mobile**  
+  Desenvolvimento da versão mobile com as **mesmas funcionalidades da versão web**, garantindo uma experiência 100% responsiva.
+
+- 🤝 **Parcerias Estratégicas**  
+  Estabelecimento de colaborações com instituições educacionais para realização de testes e validações em ambientes reais.
 
 ---
 
