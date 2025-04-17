@@ -195,6 +195,7 @@ Abaixo estão as principais telas desenvolvidas para o EduConnect. Cada uma dela
 ![image](https://github.com/user-attachments/assets/715d7c65-6552-4c01-8aff-eefa39c7eb2f)
 
 - 🏠 **Home**
+
   Tela Inicial com informações principais de gerenciamento e alertas aos usuários
   
 - 👨‍🎓 Parte Aluno:
@@ -202,7 +203,11 @@ Abaixo estão as principais telas desenvolvidas para o EduConnect. Cada uma dela
   
 - 👩‍🏫 Parte Professor:
 
-  
+- 👤 **Perfil do Usuário**
+
+  Tela de Perfil do Usuário contendo as informações básicas do seu usuário.
+![image](https://github.com/user-attachments/assets/a3936b42-c66d-47af-8d71-1991dc126729)
+
 - 📰 **Feed Escolar**  
   Rede social interna para postagens, interações e comentários.
 ![image](https://github.com/user-attachments/assets/01ad7d66-f8d8-4191-ba6d-f3ab7e41f32d)
