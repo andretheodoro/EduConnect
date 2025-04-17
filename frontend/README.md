@@ -178,7 +178,7 @@ Confira abaixo as próximas etapas previstas para a evolução do EduConnect:
   Criação de um **Fórum Educacional** colaborativo para debates sobre metodologias, desafios pedagógicos e boas práticas.
 
 - 📱 **Expansão para Plataforma Mobile**  
-  Desenvolvimento da versão mobile com as **mesmas funcionalidades da versão web**, garantindo uma experiência 100% responsiva.
+  Desenvolvimento da versão mobile com as mesmas funcionalidades da versão web, garantindo uma experiência 100% responsiva.
 
 - 🤝 **Parcerias Estratégicas**  
   Estabelecimento de colaborações com instituições educacionais para realização de testes e validações em ambientes reais.
