@@ -226,6 +226,9 @@ Abaixo estão as principais telas desenvolvidas para o EduConnect. Cada uma dela
 ![image](https://github.com/user-attachments/assets/c13c4977-9fd6-47c0-9ea3-ac00dcac38ff)
 ![image](https://github.com/user-attachments/assets/4223b0b5-0947-41e9-b986-814041bc6240)
 ![image](https://github.com/user-attachments/assets/1e4ad1bd-91f8-4b8c-8f88-c00ed392a136)
+![image](https://github.com/user-attachments/assets/6e7538da-76c5-49b5-9075-ad773222be04)
+![image](https://github.com/user-attachments/assets/a2cadc3f-f525-45f2-9b59-8aab3db7e900)
+![image](https://github.com/user-attachments/assets/7c6ca460-cc26-4963-9fbe-bc2a9555a85f)
 
 - 💬 **Mensagens Privadas**  
   Comunicação direta entre alunos e professores em tempo real.
