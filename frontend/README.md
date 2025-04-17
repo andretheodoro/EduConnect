@@ -4,8 +4,6 @@
 
 ---
 
-## ✨ Funcionalidades Implementadas
-
 ## 🌟 Funcionalidades do Sistema
 
 ### 1. 🔐 **Autenticação**
