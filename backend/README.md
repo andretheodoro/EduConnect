@@ -69,7 +69,7 @@ O backend do EduConnect foi desenvolvido em Node.js com Express, estruturado em 
 | **Docker** | Containerização da aplicação |
 | **Socket.IO** | Comunicação em tempo real para o chat |
 | **PostgreSQL** | Banco de dados relacional |
-| **Nodemailer** | Envio de e-mails para notificações e recuperação de senha |
+| **OpenAI** | Integração com a API da OpenAI |
 
 ---
 
@@ -233,12 +233,32 @@ Esse comando irá construir e iniciar os containers do Docker.
 - `GET /profile/:userId` – Retorna perfil do usuário.
 ---
 
-## ✅ Melhorias Futuras
+## 🚀 Próximos Passos do Projeto EduConnect
 
-- Implementação de testes automatizados.
-- Integração com serviços de terceiros para análise de dados.
-- Melhoria na escalabilidade e performance da aplicação.
-- Documentação da API com Swagger.
+Confira abaixo as próximas etapas previstas para a evolução do EduConnect:
+
+- ✅ **Implementação de Funcionalidades CRUD**  
+  Gravação, exclusão e pesquisa de dados gerais do sistema.  
+  *(Atualmente, os dados estão sendo inseridos manualmente via banco de dados.)*
+
+- 📊 **Implementação de Análises Avançadas**  
+  Utilização de Inteligência Artificial para gerar insights sobre o desempenho acadêmico e o bem-estar emocional dos alunos.
+
+- 👨‍👩‍👧‍👦 **Expansão de Funcionalidades para Pais e Responsáveis**  
+  Inclusão de módulos específicos que possibilitam o acompanhamento da rotina escolar dos alunos pelos responsáveis.
+
+- 🕹️ **Games de Aprendizagem**  
+  Desenvolvimento de uma mecânica de gamificação com sistema de pontos, medalhas e recompensas por participação em atividades.
+
+- 🌐 **Integração com Comunidade e Escolas Próximas**  
+  Criação de um **Fórum Educacional** colaborativo para debates sobre metodologias, desafios pedagógicos e boas práticas.
+
+- 📱 **Expansão para Plataforma Mobile**  
+  Desenvolvimento da versão mobile com as mesmas funcionalidades da versão web, garantindo uma experiência 100% responsiva.
+
+- 🤝 **Parcerias Estratégicas**  
+  Estabelecimento de colaborações com instituições educacionais para realização de testes e validações em ambientes reais.
+
 ---
 
 ## 📝 Licença
