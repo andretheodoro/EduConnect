@@ -206,7 +206,7 @@ Abaixo estão as principais telas desenvolvidas para o EduConnect. Cada uma dela
 - 👤 **Perfil do Usuário**
 
   Tela de Perfil do Usuário contendo as informações básicas do seu usuário.
-![image](https://github.com/user-attachments/assets/a3936b42-c66d-47af-8d71-1991dc126729)
+![image](https://github.com/user-attachments/assets/8dd563c4-4f0f-4553-9692-ea6d30fe5430)
 
 - 📰 **Feed Escolar**  
   Rede social interna para postagens, interações e comentários.
