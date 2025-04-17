@@ -241,10 +241,6 @@ Esse comando irá construir e iniciar os containers do Docker.
 - Documentação da API com Swagger.
 ---
 
-## 🔗 Integração com o Frontend
-API pronta para ser consumida por frontends React, Construct 3, etc.
----
-
 ## 📝 Licença
 
 Este projeto está sob a Licença MIT.

@@ -14,7 +14,7 @@ Nosso objetivo é facilitar a rotina de instituições de ensino com tecnologia 
 
 ## 🔗 Documentações dos Projetos
 
-Para mais informações, acesse os readmes específicos de cada módulo:
+Para mais informações, acesse os readmes específicos de cada projeto:
 
 - 🖥️ **Frontend:**  
   [EduConnect - Frontend](https://github.com/andretheodoro/EduConnect/blob/main/frontend/README.md)
