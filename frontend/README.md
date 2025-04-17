@@ -87,12 +87,13 @@
 | **React**       | Biblioteca para construção da UI |
 | **TypeScript**  | Tipagem estática para maior robustez |
 | **Tailwind CSS**| Utilizado para estilização e responsividade |
-| **Chart.js / Recharts** | Criação de gráficos de notas e frequência |
+| **Chart.js** | Criação de gráficos de notas e frequência |
 | **Socket.IO**   | Comunicação em tempo real (chat) |
 | **React Router DOM** | Gerenciamento de rotas da aplicação |
 | **Axios**       | Requisições HTTP para o backend |
 | **React Icons** | Ícones visuais para navegação |
-| **Framer Motion** | Animações suaves nos componentes |
+| **React-calendar** | Criação do Calendário Escolar |
+| **Daily.co** | Integração para chamadas de vídeo |
 
 ---
 
