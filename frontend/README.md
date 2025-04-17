@@ -194,6 +194,15 @@ Abaixo estão as principais telas desenvolvidas para o EduConnect. Cada uma dela
   Tela de autenticação para acesso ao sistema.
 ![image](https://github.com/user-attachments/assets/715d7c65-6552-4c01-8aff-eefa39c7eb2f)
 
+- 🏠 **Home**
+  Tela Inicial com informações principais de gerenciamento e alertas aos usuários
+  
+- 👨‍🎓 Parte Aluno:
+
+  
+- 👩‍🏫 Parte Professor:
+
+  
 - 📰 **Feed Escolar**  
   Rede social interna para postagens, interações e comentários.
 ![image](https://github.com/user-attachments/assets/01ad7d66-f8d8-4191-ba6d-f3ab7e41f32d)
@@ -215,6 +224,7 @@ Abaixo estão as principais telas desenvolvidas para o EduConnect. Cada uma dela
 
 - 💬 **Mensagens Privadas**  
   Comunicação direta entre alunos e professores em tempo real.
+  ![image](https://github.com/user-attachments/assets/e09dfbd5-12a1-49b7-bbd4-5cb56a79fcaf)
 
 - 📅 **Calendário Escolar**  
   Exibição de eventos, reuniões e datas importantes por mês.
