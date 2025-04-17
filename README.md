@@ -24,4 +24,10 @@ Para mais informações, acesse os readmes específicos de cada projeto:
 
 ---
 
-> Slogan: *Conectando mentes, desenvolvendo futuros* 🌱
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/87156d96-9bcc-4d5b-8e01-d01efaeb5e56" alt="logo-full" width="400"/>
+</p>
+
+<p align="center">
+  <strong>Slogan:</strong> <em>Conectando mentes, desenvolvendo futuros</em> 💻
+</p>
