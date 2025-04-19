@@ -15,7 +15,7 @@ import {
 } from 'chart.js';
 import '../styles/notasFrequencias.css';
 import AlertasRendimento from './AlertasRendimento';
-import api from '../services/api'; 
+import api from '../services/api';
 
 ChartJS.register(
   CategoryScale,
@@ -32,12 +32,14 @@ ChartJS.register(
 
 interface AlunoNota {
   aluno_id: number;
+  email: string;
   name: string;
   media_nota: number;
 }
 
 interface AlunoFrequencia {
   aluno_id: number;
+  email: string;
   name: string;
   media_frequencia: number;
 }
@@ -49,7 +51,7 @@ const NotasFrequencias: React.FC = () => {
   const [disciplinas, setDisciplinas] = useState<string[]>([]);
   const [filtroTurma, setFiltroTurma] = useState<string>('');
   const [filtroDisciplina, setFiltroDisciplina] = useState<string>('');
-  
+
   const params = {
     classId: filtroTurma || undefined,
     subject: filtroDisciplina || undefined
@@ -59,6 +61,7 @@ const NotasFrequencias: React.FC = () => {
     const fetchMedicaNotas = async () => {
       try {
         const response = await api.get('/notas/media', { params });
+        console.log("media:", response.data);
         setDadosNotas(response.data);
       } catch (error) {
         console.error('Erro ao buscar média de notas:', error);
@@ -68,6 +71,7 @@ const NotasFrequencias: React.FC = () => {
     const fetchMedicaFreq = async () => {
       try {
         const response = await api.get('/frequencias/media', { params });
+        console.log("frequencias:", response.data);
         setDadosFrequencia(response.data);
       } catch (error) {
         console.error('Erro ao buscar média de frequencias:', error);
@@ -76,17 +80,17 @@ const NotasFrequencias: React.FC = () => {
 
     const fetchTurmas = async () => {
       try {
-        const response = await api.get('/alunos/turmas'); 
+        const response = await api.get('/alunos/turmas');
         console.log(response)
         setTurmas(response.data);
       } catch (error) {
         console.error('Erro ao buscar turmas:', error);
       }
     };
-  
+
     const fetchDisciplinas = async () => {
       try {
-        const response = await api.get('/notas/disciplinas'); 
+        const response = await api.get('/notas/disciplinas');
         const disciplinasFormatadas = response.data.map((item: any) => item.subject);
         setDisciplinas(disciplinasFormatadas);
       } catch (error) {
@@ -103,8 +107,8 @@ const NotasFrequencias: React.FC = () => {
   const totalAlunos = dadosNotas.length;
 
   const mediaTurma = dadosNotas.length
-  ? dadosNotas.reduce((acc, curr) => acc + Number(curr.media_nota), 0) / dadosNotas.length
-  : 0;
+    ? dadosNotas.reduce((acc, curr) => acc + Number(curr.media_nota), 0) / dadosNotas.length
+    : 0;
 
   const mediaFreqTurma = dadosFrequencia.reduce((acc, curr) => acc + Number(curr.media_frequencia), 0) / (dadosFrequencia.length || 1);
 
@@ -113,9 +117,9 @@ const NotasFrequencias: React.FC = () => {
 
   const coresNotas = dadosNotas.map((aluno) => {
     const nota = aluno.media_nota;
-    if (nota >= mediaTurma) return 'rgba(16, 185, 129, 0.7)'; 
-    if (nota >= mediaTurma - 1) return 'rgba(249, 115, 22, 0.7)';  
-    return 'rgba(239, 68, 68, 0.7)';                               
+    if (nota >= mediaTurma) return 'rgba(16, 185, 129, 0.7)';
+    if (nota >= mediaTurma - 1) return 'rgba(249, 115, 22, 0.7)';
+    return 'rgba(239, 68, 68, 0.7)';
   });
 
   const chartNotasData = {
@@ -187,12 +191,12 @@ const NotasFrequencias: React.FC = () => {
         classId: filtroTurma || undefined,
         subject: filtroDisciplina || undefined
       };
-  
+
       const [notasRes, freqRes] = await Promise.all([
         api.get('/notas/media', { params }),
         api.get('/frequencias/media', { params }),
       ]);
-  
+
       setDadosNotas(notasRes.data);
       setDadosFrequencia(freqRes.data);
     } catch (error) {
@@ -263,6 +267,7 @@ const NotasFrequencias: React.FC = () => {
 
         <AlertasRendimento alunos={dadosNotas.map((aluno) => ({
           id: aluno.aluno_id,
+          email: aluno.email,
           nome: aluno.name,
           nota: Number(aluno.media_nota),
           frequencia: dadosFrequencia.find((f) => f.aluno_id === aluno.aluno_id)?.media_frequencia || 0

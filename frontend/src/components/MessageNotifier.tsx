@@ -20,7 +20,7 @@ export const unlockNotificationSound = () => {
   notificationSound.play().catch(err => {
     console.warn("Erro ao desbloquear o som:", err);
   });
-  
+
   // Depois de tocar no volume zero, volta ao volume normal
   setTimeout(() => {
     notificationSound.pause();
@@ -64,10 +64,12 @@ const MessageNotifier: React.FC = () => {
     socket.on('new_message', (message: Message) => {
       console.log(`🔔 Nova mensagem recebida de: ${message.senderId}`, message);
       const notificationText = `🔔 Nova mensagem de: ${message.senderId}`;
-      showNotification(notificationText, 'info', 8000);
 
-      playNotificationSound(); // agora permitido
+      // Tenta mostrar a notificação
+      try { showNotification(notificationText, 'info', 8000); } catch (error) { console.error("Erro ao mostrar notificação:", error); }
 
+      // Tenta tocar o som de notificação
+      try { playNotificationSound(); } catch (error) { console.error("Erro ao tocar som de notificação:", error); }
     });
 
     return () => {

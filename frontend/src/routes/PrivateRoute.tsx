@@ -11,8 +11,8 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, tipoUsuario }) =>
   const token = localStorage.getItem("token");
   const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
 
-  console.log(usuario.tipo);
-  console.log(tipoUsuario);
+  // console.log(usuario.tipo);
+  // console.log(tipoUsuario);
 
   if (!token || !usuario) {
     return <Navigate to="/login" replace />;

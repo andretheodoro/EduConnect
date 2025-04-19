@@ -17,6 +17,8 @@ import '../styles/homeAluno.css';
 // import '../styles/saudeBemEstarAlunoCard.css';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowRight } from 'react-icons/fa';
+import { ListItem, ListItemText, Typography } from '@mui/material';
+import Message from '../models/IMessage';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -51,6 +53,7 @@ const HomeAluno: React.FC = () => {
   const [dadosNotas, setDadosNotas] = useState<AlunoNota[]>([]);
   const [dadosFrequencia, setDadosFrequencia] = useState<AlunoFrequencia[]>([]);
   const [ultimasRespostas, setUltimasRespostas] = useState<Resposta | null>(null);
+  const [receivedMessages, setReceivedMessages] = useState<Message>();
 
   // Buscar Notas
   useEffect(() => {
@@ -63,14 +66,14 @@ const HomeAluno: React.FC = () => {
       }
     };
 
-       const fetchFrequencias = async () => {
-          try {
-            const response = await api.get(`/frequencias/aluno/${alunoId}`);
-            setDadosFrequencia(response.data);
-          } catch (error) {
-            console.error('Erro ao buscar frequências do aluno:', error);
-          }
-        };
+    const fetchFrequencias = async () => {
+      try {
+        const response = await api.get(`/frequencias/aluno/${alunoId}`);
+        setDadosFrequencia(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar frequências do aluno:', error);
+      }
+    };
 
     if (alunoId > 0) fetchNotas(); fetchFrequencias();
   }, [alunoId]);
@@ -89,6 +92,22 @@ const HomeAluno: React.FC = () => {
     console.log('usuarioId', usuarioId);
     if (usuarioId != 0) fetchRespostas();
   }, [usuarioId]);
+
+  useEffect(() => {
+    try {
+      const userEmail = JSON.parse(localStorage.getItem('usuario') || '{}').email;
+      console.clear();
+      api.get(`/messages/received/${userEmail}`)
+        .then((res) =>
+          res.data[0] ? res.data[0] : null
+        )
+        .then((data) => setReceivedMessages(data));
+    }
+    catch (error) {
+      console.error('Erro ao buscar mensagens recebidas:', error);
+    }
+  }, []);
+
 
   // Cálculo da média
   const mediaNotaAluno = dadosNotas.length
@@ -171,8 +190,8 @@ const HomeAluno: React.FC = () => {
             <FaArrowRight className="ver-mais-icon" title="Ver mais" />
           </div>
         </div>
-     {/* Card de Frequencias */}
-     <div className="card-home" onClick={() => navigate('/notas-frequencia-aluno')}>
+        {/* Card de Frequencias */}
+        <div className="card-home" onClick={() => navigate('/notas-frequencia-aluno')}>
           <div className="card-header">
             <h3>Frequências</h3>
           </div>
@@ -184,11 +203,11 @@ const HomeAluno: React.FC = () => {
           <div className="card-footer">
             <FaArrowRight className="ver-mais-icon" title="Ver mais" />
           </div>
-        </div>    
+        </div>
       </div>
       <div className="cards-container">
-       {/* Card de Saúde e Bem-Estar */}
-       <div  className="card-home" onClick={() => navigate('/saude-bemestar-aluno')}>
+        {/* Card de Saúde e Bem-Estar */}
+        <div className="card-home" onClick={() => navigate('/saude-bemestar-aluno')}>
           <div className="card-header">
             <h3>Últimos Sentimentos</h3>
           </div>
@@ -222,8 +241,61 @@ const HomeAluno: React.FC = () => {
           <div className="card-footer">
             <FaArrowRight className="ver-mais-icon" title="Ver mais" />
           </div>
+
+        </div>
+        {/* Mensagem */}
+        <div className="card-home" onClick={() => navigate('/messages')}>
+          <div className="card-header">
+            <h3>Última Mensagem Recebida</h3>
+          </div>
+          <div className="mini-chart">
+            <React.Fragment>
+              <ListItem
+                alignItems="flex-start"
+                sx={{
+                  cursor: 'pointer',
+                  '&:hover': {
+                    backgroundColor: 'action.hover', // muda fundo no hover
+                  },
+                }}
+              >
+                {receivedMessages && (
+                  <ListItemText
+                    primary={
+                      <Typography variant="subtitle1" fontWeight="bold">
+                        {receivedMessages.title}
+                      </Typography>
+                    }
+                    secondary={
+                      <>
+                        <Typography component="span" variant="body2" color="text.primary">
+                          De: {receivedMessages.sender?.email}
+                        </Typography>
+                        <br />
+                        {receivedMessages.content.substring(0, 10) + (receivedMessages.content.length > 10 ? '...' : '')}
+                        <br />
+                        <em>{receivedMessages.createdAt ? new Date(receivedMessages.createdAt).toLocaleString() : 'Data não disponível'}</em>
+                      </>
+                    }
+                  />
+                )}
+                {!receivedMessages &&
+                  <ListItemText
+                    primary={
+                      <Typography variant="subtitle1">
+                        Nenhuma mensagem recebida
+                      </Typography>
+                    }
+                  />
+                }
+              </ListItem>
+            </React.Fragment>
+          </div>
+          <div className="card-footer">
+            <FaArrowRight className="ver-mais-icon" title="Ver mais" />
           </div>
         </div>
+      </div>
     </div>
   );
 };

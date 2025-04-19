@@ -1,30 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { FiSend, FiInbox, FiEdit } from 'react-icons/fi';
+import { FiSend, FiInbox, FiEdit, FiCheckCircle, FiMail } from 'react-icons/fi';
 import api from '../services/api';
 import socket from '../services/socket';
 import Button from '@mui/material/Button';
 import MessageView from './MessageView';
 
-import { Box, Typography, TextField, Paper, List, ListItem, ListItemText, ListItemButton, Autocomplete, Divider, ListItemIcon } from '@mui/material';
+import { Box, Typography, TextField, Paper, List, ListItem, ListItemText, ListItemButton, Autocomplete, Divider, ListItemIcon, IconButton, Tooltip } from '@mui/material';
+import Notification from '../components/Notification'; // Adjust the path as needed
 import { useNotification } from '../hooks/useNotification';
-
-
-
+import User from '../models/IUser';
+import Message from '../models/IMessage';
+import { fetchReceivedMessages, fetchSentMessages, markMessageAsRead, sendMessage, unmarkMessageAsRead } from '../services/message';
+import IMessage from '../models/IMessage';
 
 const userEmail = JSON.parse(localStorage.getItem('usuario') || '{}').email;
-
-interface Message {
-  title: string;
-  content: string;
-  senderId: string;
-  sender: { email: string };
-  recipients: User[];
-  createdAt: string;
-}
-
-interface User {
-  email: string;
-}
 
 const MessageForm: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'send' | 'inbox' | 'sent'>('send');
@@ -69,20 +58,48 @@ const MessageForm: React.FC = () => {
       });
 
     if (activeTab === 'inbox') {
-      api.get(`/messages/received/${userEmail}`)
-        .then((res) => res.data)
-        .then((data) => setReceivedMessages(data));
+      fetchReceivedMessages(userEmail, setReceivedMessages);
+      console.log("receivedMessages", receivedMessages);
     }
 
     if (activeTab === 'sent') {
-      api.get(`/messages/sent/${userEmail}`)
-        .then((res) => {
-          console.log(res.data);
-          return res.data;
-        })
-        .then((data) => setSentMessages(data));
+      fetchSentMessages(userEmail, setSentMessages);
     }
   }, [activeTab]);
+
+  const handleToggleRead = async (message: IMessage) => {
+    try {
+      const userId = JSON.parse(localStorage.getItem('usuario') || '{}').id;
+      if (message.id !== undefined) {
+        if (!message.isRead) {
+          const response = await markMessageAsRead(String(message.id), userId);
+
+          if (response.status >= 200 && response.status < 300) {
+            console.log("marcada como lida:", message.id);
+            setReceivedMessages((prev) =>
+              prev.map((msg) => msg.id === message.id ? { ...msg, isRead: true } : msg)
+            );
+          } else {
+            console.error("Erro ao marcar mensagem como lida:", response);
+          }
+        } else {
+          const response = await unmarkMessageAsRead(message.id, userId);
+
+          if (response.status >= 200 && response.status < 300) {
+            console.log("marcada como não lida:", message.id);
+            setReceivedMessages((prev) =>
+              prev.map((msg) => msg.id === message.id ? { ...msg, isRead: false } : msg)
+            );
+          } else {
+            console.error("Erro ao marcar mensagem como não lida:", response);
+          }
+        }
+      }
+
+    } catch (error) {
+      console.error("Erro ao atualizar status de leitura:", error);
+    }
+  };
 
   const {
     message: messageNotification,
@@ -99,16 +116,21 @@ const MessageForm: React.FC = () => {
       senderId: userEmail,
       recipientIds: recipients.map((user) => user.email),
       dateSent: new Date().toISOString(),
-    };
+      readBy: [],
+      isRead: false
+    } as IMessage;
 
-    const response = await api.post('/messages/send', newMessage, {
-      // headers: {
-      //   'Authorization': 'Bearer token_aqui', // Adicionar token
-      //       },
-    });
+    const response = await sendMessage(newMessage);
 
+    console.log('Resposta do envio:', response);
     if (response.status >= 200 && response.status < 300) {
-      showNotification('Mensagem enviada', 'success', 8000);
+      console.log('Mensagem enviada com sucesso!');
+
+      try {
+
+        showNotification('Mensagem enviada', 'success', 8000);
+      } catch (error) { console.error("Erro ao mostrar notificação:", error); }
+
       socket.emit('sendMessage', newMessage);
 
       setTitle('');
@@ -123,6 +145,9 @@ const MessageForm: React.FC = () => {
     <Box display="flex" p="1rem">
       {/* Menu lateral */}
       < Paper elevation={2} sx={{ width: 250, height: 608, p: 2 }}>
+        {visible && (
+          <Notification message={messageNotification} type={type} onClose={closeNotification} />
+        )}
         <Typography variant="h6" gutterBottom>Mensagens</Typography>
         <List>
           <ListItem disablePadding>
@@ -183,7 +208,7 @@ const MessageForm: React.FC = () => {
               <Autocomplete<User, true, false, false>
                 multiple
                 options={allUsers}
-                getOptionLabel={(option?) => option.email}
+                getOptionLabel={(option) => option?.email || ''}
                 value={recipients}
                 onChange={(_, newValue) => setRecipients(newValue)}
                 sx={{ flex: 1 }}
@@ -244,16 +269,20 @@ const MessageForm: React.FC = () => {
               ) : (
                 selectedMessage ? (
                   <MessageView
-                    message={{
-                      title: selectedMessage.title,
-                      senderEmail: selectedMessage.sender.email,
-                      recipients: selectedMessage.recipients.map(r => r.email),
-                      createdAt: selectedMessage.createdAt,
-                      content: selectedMessage.content,
-                    }}
+                    // message={{
+                    //   title: selectedMessage.title,
+                    //   senderEmail: selectedMessage.sender.email,
+                    //   recipients: selectedMessage.recipients.map(r => ({ email: r.email })),
+                    //   createdAt: selectedMessage.createdAt,
+                    //   content: selectedMessage.content,
+                    // }}
+                    message={selectedMessage}
+                    setReceivedMessages={setReceivedMessages}
                     onBack={() => setSelectedMessage(null)}
                   />
                 ) : (
+                  // add border left when isread false
+
                   <List>
                     {receivedMessages.map((msg, index) => (
                       <React.Fragment key={index}>
@@ -263,8 +292,9 @@ const MessageForm: React.FC = () => {
                           sx={{
                             cursor: 'pointer',
                             '&:hover': {
-                              backgroundColor: 'action.hover', 
+                              backgroundColor: 'action.hover',
                             },
+                            borderLeft: msg.isRead ? 'none' : '4px solid #1976d2',
                           }}
                         >
                           <ListItemText
@@ -276,16 +306,29 @@ const MessageForm: React.FC = () => {
                             secondary={
                               <>
                                 <Typography component="span" variant="body2" color="text.primary">
-                                  Para: {msg.recipients.map(r => r.email).join(', ')}
+                                  De: {msg.sender?.email}
                                 </Typography>
                                 <br />
-                                {msg.content.substring(0, 10) + (msg.content.length > 10 ? '...' : '')}
+                                {msg.content.substring(0, 25) + (msg.content.length > 25 ? '...' : '')}
                                 <br />
-                                <em>{new Date(msg.createdAt).toLocaleString()}</em>
+                                <em>{msg.createdAt ? new Date(msg.createdAt).toLocaleString() : 'Data não disponível'}</em>
                               </>
                             }
                           />
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={(e) => {
+                              e.stopPropagation(); // Previne a propagação do clique para o ListItem
+                              handleToggleRead(msg); // Chama a função para marcar/desmarcar como lida
+                            }}
+                            title={msg.isRead ? "Desmarcar como lida" : "Marcar como lida"}
+                            sx={{ mt: 1, display: "flex", alignItems: "center", gap: 1 }}
+                          >
+                            {msg.isRead ? <FiInbox size={18} /> : <FiMail size={18} />}
+                          </Button>
                         </ListItem>
+
                         <Divider component="li" />
                       </React.Fragment>
                     ))}
@@ -308,13 +351,15 @@ const MessageForm: React.FC = () => {
               ) : (
                 selectedMessage ? (
                   <MessageView
-                    message={{
-                      title: selectedMessage.title,
-                      senderEmail: selectedMessage.sender.email,
-                      recipients: selectedMessage.recipients.map(r => r.email),
-                      createdAt: selectedMessage.createdAt,
-                      content: selectedMessage.content,
-                    }}
+                    // message={{
+                    //   title: selectedMessage.title,
+                    //   senderEmail: selectedMessage.sender.email,
+                    //   recipients: selectedMessage.recipients.map(r => r.email),
+                    //   createdAt: selectedMessage.createdAt,
+                    //   content: selectedMessage.content,
+                    // }}
+                    message={selectedMessage}
+                    setReceivedMessages={null}
                     onBack={() => setSelectedMessage(null)}
                   />
                 ) : (
@@ -340,12 +385,12 @@ const MessageForm: React.FC = () => {
                             secondary={
                               <>
                                 <Typography component="span" variant="body2" color="text.primary">
-                                  Para: {msg.recipients.map(r => r.email).join(', ')}
+                                  Para: {(msg.recipients ?? []).map(r => r.email).join(', ')}
                                 </Typography>
                                 <br />
-                                {msg.content.substring(0, 10) + (msg.content.length > 10 ? '...' : '')}
+                                {msg.content.substring(0, 25) + (msg.content.length > 25 ? '...' : '')}
                                 <br />
-                                <em>{new Date(msg.createdAt).toLocaleString()}</em>
+                                <em>{msg.createdAt ? new Date(msg.createdAt).toLocaleString() : 'Data não disponível'}</em>
                               </>
                             }
                           />

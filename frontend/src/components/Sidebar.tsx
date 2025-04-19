@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   FaHome,
   FaBook,
@@ -12,6 +12,8 @@ import {
 } from 'react-icons/fa';
 import '../styles/sidebar.css';
 import { useNavigate } from 'react-router-dom';
+import { fetchReceivedMessages } from '../services/message'; // Adjust the import path as necessary
+import IMessage from '../models/IMessage';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -19,7 +21,24 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const userEmail = JSON.parse(localStorage.getItem('usuario') || '{}').email;
+  const [receivedMessages, setReceivedMessages] = React.useState<any[]>([]); // Adjust the type as necessary
+  const [hasUnreadMessages, setHasUnreadMessages] = React.useState(false);
+
+  useEffect(() => {
+    const loadMessages = async () => {
+      await fetchReceivedMessages(userEmail, setReceivedMessages);
+    };
+
+    loadMessages();
+  }, [userEmail]);
+
+
+  useEffect(() => {
+    setHasUnreadMessages(receivedMessages.some((message) => !message.isRead));
+  }, [receivedMessages]);
+
 
   return (
     <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
@@ -36,8 +55,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
         <li onClick={() => navigate('/notas-frequencias')}>
           <FaChartBar /> {isOpen && 'Frequências e Notas'}
         </li>
-        <li onClick={() => navigate('/messages')}>
-          <FaComments /> {isOpen && 'Mensagens'}
+        <li onClick={() => navigate('/messages')} style={{ position: 'relative' }}>
+          <FaComments className={hasUnreadMessages ? "pulsing-icon" : ""} /> {isOpen && 'Mensagens'}
         </li>
         <li onClick={() => navigate('/assistente')}>
           <FaRobot /> {isOpen && 'Assistente Virtual'}

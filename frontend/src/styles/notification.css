@@ -16,6 +16,7 @@
   }
   
   .notification.success { border-color: green; }
+  .notification.warning { border-color: #f39c12; }
   .notification.error { border-color: red; }
   .notification.info { border-color: #2980b9; flex-direction:row; padding:  10px 15px; } /* Ajuste pois estava conflitando com outra clase de info e quebrando a notificação de mensagem */
   

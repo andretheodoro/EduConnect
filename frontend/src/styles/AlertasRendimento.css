@@ -45,7 +45,7 @@
     gap: 1rem;
   }
   
-  .paginacao button {
+  /* .paginacao button {
     background-color: #007bff;
     border: none;
     padding: 6px 12px;
@@ -57,4 +57,4 @@
   .paginacao button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
-  }
+  } */

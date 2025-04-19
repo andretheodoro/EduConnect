@@ -13,6 +13,8 @@ import {
 import '../styles/home.css';
 import { FaArrowRight } from 'react-icons/fa';
 import api from '../services/api';
+import { ListItem, ListItemText, Typography, Divider } from '@mui/material';
+import Message from '../models/IMessage';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, ArcElement);
 
@@ -45,13 +47,16 @@ const Home: React.FC = () => {
 
   const [alunosAlerta, setAlunosAlerta] = useState<AlunoAlerta[]>([]);
   const [contagemStatus, setContagemStatus] = useState({ ok: 0, alerta: 0, critico: 0 });
-  
+
+  const [receivedMessages, setReceivedMessages] = useState<Message>();
+
+
   useEffect(() => {
     const fetchAlunosAlerta = async () => {
       try {
         const res = await api.get('/bem-estar/respostas-alunos');
         setAlunosAlerta(res.data);
-  
+
         const statusCount = { ok: 0, alerta: 0, critico: 0 };
         res.data.forEach((aluno: AlunoAlerta) => {
           if (aluno.status === 'OK') statusCount.ok += 1;
@@ -63,10 +68,10 @@ const Home: React.FC = () => {
         console.error('Erro ao buscar status emocional:', err);
       }
     };
-  
+
     fetchAlunosAlerta();
   }, []);
-  
+
   useEffect(() => {
     const fetchNotas = async () => {
       try {
@@ -96,9 +101,25 @@ const Home: React.FC = () => {
       const frequencia = dadosFrequencia.filter((a) => a.media_frequencia >= 70).length;
       setTotalAlunos(total);
       setFrequenciaIdeal(frequencia);
-      setLoading(false); 
+      setLoading(false);
     }
   }, [dadosFrequencia]);
+
+
+  useEffect(() => {
+    try {
+      const userEmail = JSON.parse(localStorage.getItem('usuario') || '{}').email;
+      console.clear();
+      api.get(`/messages/received/${userEmail}`)
+        .then((res) =>
+          res.data[0] ? res.data[0] : null
+        )
+        .then((data) => setReceivedMessages(data));
+    }
+    catch (error) {
+      console.error('Erro ao buscar mensagens recebidas:', error);
+    }
+  }, []);
 
   if (loading) {
     return <div>Carregando...</div>;
@@ -111,16 +132,16 @@ const Home: React.FC = () => {
   const mediaGeral =
     dadosNotas.length > 0
       ? (
-          dadosNotas.reduce((acc, a) => acc + parseFloat(a.media_nota), 0) / dadosNotas.length
-        ).toFixed(1)
+        dadosNotas.reduce((acc, a) => acc + parseFloat(a.media_nota), 0) / dadosNotas.length
+      ).toFixed(1)
       : '0.0';
   const mediaColor = parseFloat(mediaGeral) < 7 ? '#ef4444' : '#10b981';
 
   const coresNotas = dadosNotas.map((aluno) => {
     const nota = aluno.media_nota;
-    if (parseFloat(nota) > 8) return 'rgba(16, 185, 129, 0.7)'; 
-    if (parseFloat(nota) >= 7) return 'rgba(249, 115, 22, 0.7)'; 
-    return 'rgba(239, 68, 68, 0.7)';                               
+    if (parseFloat(nota) > 8) return 'rgba(16, 185, 129, 0.7)';
+    if (parseFloat(nota) >= 7) return 'rgba(249, 115, 22, 0.7)';
+    return 'rgba(239, 68, 68, 0.7)';
   });
 
   const chartData = {
@@ -128,7 +149,7 @@ const Home: React.FC = () => {
     datasets: [
       {
         label: 'Nota',
-        data: dadosNotas.map((a) => parseFloat(a.media_nota)), 
+        data: dadosNotas.map((a) => parseFloat(a.media_nota)),
         backgroundColor: coresNotas,
         borderRadius: 4,
         barThickness: 20,
@@ -155,7 +176,7 @@ const Home: React.FC = () => {
 
       if (totalAlunos === 0 || frequenciaIdeal === 0) {
         ctx.restore();
-        return; 
+        return;
       }
 
       const percentText = totalAlunos > 0
@@ -201,7 +222,7 @@ const Home: React.FC = () => {
       }
     ]
   };
-  
+
   const doughnutOptions = {
     plugins: {
       legend: { display: false },
@@ -252,36 +273,72 @@ const Home: React.FC = () => {
         </div>
       </div>
       <div className="cards-container">
-    {/* Estado Emocional */}
-<div className="card-home" onClick={() => navigate('/saude-bemestar')}>
-  <div className="card-header">
-    <h3>Estado Emocional</h3>
-  </div>
-  <div className="mini-chart">
-    <Doughnut
-      data={chartSaudeEmocionalData}
-      options={{
-        plugins: { legend: { display: true, position: 'right' } },
-        cutout: '70%'
-      }}
-    />
-  </div>
-  <div className="card-footer">
-    <FaArrowRight className="ver-mais-icon" title="Ver mais" />
-  </div>
-</div>
-
-        {/* Frequência */}
-        <div className="card-home" onClick={() => navigate('/notas-frequencias')}>
+        {/* Estado Emocional */}
+        <div className="card-home" onClick={() => navigate('/saude-bemestar')}>
           <div className="card-header">
-            <h3>Frequência</h3>
+            <h3>Estado Emocional</h3>
           </div>
           <div className="mini-chart">
             <Doughnut
-              data={chartFrequenciaData}
-              options={doughnutOptions}
-              plugins={[doughnutCenterTextPlugin]}
+              data={chartSaudeEmocionalData}
+              options={{
+                plugins: { legend: { display: true, position: 'right' } },
+                cutout: '70%'
+              }}
             />
+          </div>
+          <div className="card-footer">
+            <FaArrowRight className="ver-mais-icon" title="Ver mais" />
+          </div>
+        </div>
+
+        {/* Mensagem */}
+        <div className="card-home" onClick={() => navigate('/messages')}>
+          <div className="card-header">
+            <h3>Última Mensagem Recebida</h3>
+          </div>
+          <div className="mini-chart">
+            <React.Fragment>
+              <ListItem
+                alignItems="flex-start"
+                sx={{
+                  cursor: 'pointer',
+                  '&:hover': {
+                    backgroundColor: 'action.hover', // muda fundo no hover
+                  },
+                }}
+              >
+                {receivedMessages && (
+                  <ListItemText
+                    primary={
+                      <Typography variant="subtitle1" fontWeight="bold">
+                        {receivedMessages.title}
+                      </Typography>
+                    }
+                    secondary={
+                      <>
+                        <Typography component="span" variant="body2" color="text.primary">
+                          De: {receivedMessages.sender?.email}
+                        </Typography>
+                        <br />
+                        {receivedMessages.content.substring(0, 10) + (receivedMessages.content.length > 10 ? '...' : '')}
+                        <br />
+                        <em>{receivedMessages.createdAt ? new Date(receivedMessages.createdAt).toLocaleString() : 'Data não disponível'}</em>
+                      </>
+                    }
+                  />
+                )}
+                {!receivedMessages &&
+                  <ListItemText
+                    primary={
+                      <Typography variant="subtitle1">
+                        Nenhuma mensagem recebida
+                      </Typography>
+                    }
+                  />
+                }
+              </ListItem>
+            </React.Fragment>
           </div>
           <div className="card-footer">
             <FaArrowRight className="ver-mais-icon" title="Ver mais" />
