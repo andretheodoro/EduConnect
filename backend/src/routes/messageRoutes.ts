@@ -4,6 +4,7 @@ import {
   listSentMessages,
   listReceivedMessages,
   markAsRead,
+  unmarkAsRead,
   // sendMessageWithSocket,
 } from "../controllers/messageController";
 
@@ -20,6 +21,9 @@ router.get("/received/:userId", listReceivedMessages);
 
 // Marcar mensagem como lida
 router.patch("/mark-as-read/:id", markAsRead);
+
+// Desmarcar mensagem como lida (opcional, se necessário)
+router.patch("/unmark-as-read/:id", unmarkAsRead);
 
 // Enviar mensagem com WebSocket
 // router.post("/send-socket", sendMessageWithSocket);

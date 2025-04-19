@@ -22,10 +22,17 @@ export const sendMessage: RequestHandler = async (
 
     // Cria os destinatários não localizados
     const newRecipients = await Promise.all(
-      missingIds.map((email: string) =>
-        prisma.messagesUser.create({
-          data: { email: email } as any, //
-        })
+      missingIds.map(async (email: string) => {
+        let sender = await prisma.messagesUser.findUnique({
+          where: { email: senderId },
+        });
+
+        if (!sender) {
+          prisma.messagesUser.create({
+            data: { email: email } as any, //
+          })
+        }
+      }
       )
     );
 
@@ -34,6 +41,7 @@ export const sendMessage: RequestHandler = async (
     let sender = await prisma.messagesUser.findUnique({
       where: { email: senderId },
     });
+
     if (!sender) {
       sender = await prisma.messagesUser.create({
         data: { email: senderId } as any, //
@@ -88,6 +96,7 @@ export const listSentMessages: RequestHandler = async (
 
   if (existing.length === 0) {
     res.json([]);
+    return;
   }
 
   const messages = await prisma.messages.findMany({
@@ -112,12 +121,19 @@ export const listReceivedMessages: RequestHandler = async (
 
   if (existingRecipients.length === 0) {
     res.json([]);
+    return;
   }
   const messages = await prisma.messages.findMany({
     where: { recipients: { some: { id: existingRecipients[0].id } } },
     include: { sender: true, recipients: true },
     orderBy: { createdAt: "desc" },
   });
+
+  messages.forEach((message) => {
+    message.readBy = message.readBy || [];
+    message.readBy = message.readBy.map((id) => id.toString());
+  });
+
 
   res.json(messages);
 };
@@ -134,5 +150,35 @@ export const markAsRead: RequestHandler = async (
     data: { readBy: { push: userId } },
   });
 
-  res.json(message);
+  res.status(200).json(message);
+};
+
+
+export const unmarkAsRead: RequestHandler = async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params;
+  const { userId } = req.body;
+
+  try {
+    // Verifica se a mensagem existe
+    const message = await prisma.messages.findUnique({ where: { id } });
+    if (!message) {
+      res.status(404).json({ error: "Mensagem não encontrada." });
+      return;
+    }
+
+    // Remove o userId da lista readBy
+    const updatedMessage = await prisma.messages.update({
+      where: { id },
+      data: {
+        readBy: {
+          set: message.readBy.filter((existingUserId: string) => existingUserId !== userId),
+        },
+      },
+    });
+
+    res.status(200).json(updatedMessage);
+  } catch (error) {
+    console.error("Erro ao desmarcar como lida:", error);
+    res.status(500).json({ error: "Erro ao desmarcar a mensagem como lida." });
+  }
 };
