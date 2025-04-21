@@ -24,14 +24,15 @@ export const sendMessage: RequestHandler = async (
     const newRecipients = await Promise.all(
       missingIds.map(async (email: string) => {
         let sender = await prisma.messagesUser.findUnique({
-          where: { email: senderId },
+          where: { email: email },
         });
 
         if (!sender) {
-          prisma.messagesUser.create({
+          sender = await prisma.messagesUser.create({
             data: { email: email } as any, //
-          })
+          });
         }
+        return sender;
       }
       )
     );
