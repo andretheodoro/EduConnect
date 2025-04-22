@@ -197,9 +197,10 @@ Abaixo estão as principais telas desenvolvidas para o EduConnect. Cada uma dela
   Tela Inicial com informações principais de gerenciamento e alertas aos usuários
   
 - 👨‍🎓 Parte Aluno:
-
+![image](https://github.com/user-attachments/assets/e8ca7d7d-2b23-450b-a5f6-767f5e7930f3)
   
 - 👩‍🏫 Parte Professor:
+![image](https://github.com/user-attachments/assets/565c656b-534e-44f6-ab24-390445f64721)
 
 - 👤 **Perfil do Usuário**
 
